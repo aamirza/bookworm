@@ -116,15 +116,6 @@ class GoalTracker:
     def ideal_pace(self):
         return self.book_goal / (self.end_date - self.start_date).days
 
-    # TODO: Remove this, unnecessary
-    # @property
-    # def days_successfully_complete(self) -> float:
-    #     """
-    #     How much of the goal has been completed in terms (units)
-    #     of days.
-    #     """
-    #     return self._total_books_complete_and_uncomplete / self.ideal_pace
-
     @property
     def days_passed_since_start(self) -> int:
         return (datetime.datetime.today().date() - self.start_date).days
@@ -157,13 +148,6 @@ class GoalTracker:
     def _num_books_required_to_advance_one_day(self) -> float:
         return self.ideal_pace - \
                (self._total_books_complete_and_uncomplete % self.ideal_pace)
-
-    # TODO: Remove this, unnecessary
-    # def days_ahead(self, *, current_date: datetime.date):
-    #     current_date = self._convert_to_date(current_date)
-    #     days_passed = (current_date - self.start_date).days
-    #     days_ahead = self.days_successfully_complete - days_passed
-    #     return round(days_ahead)
 
     def minimum_pages_needed(self, book: Book, *,
                              force_next_day: bool = False):

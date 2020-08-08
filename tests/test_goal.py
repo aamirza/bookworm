@@ -77,13 +77,6 @@ class TestGoalTracker(TestCase):
         self.goal.end_date = "2021-01-01"
         self.assertEqual(1, self.goal.ideal_pace)
 
-    # def test_daysComplete(self):
-    #     self.goal.book_goal = 366
-    #     self.goal.start_date = "2020-01-01"
-    #     self.goal.end_date = "2021-01-01"
-    #     self.goal += Book("A complete book", 100, 100)
-    #     self.assertEqual(1, self.goal.days_successfully_complete)
-
     def test_incompleteBooks(self):
         book1 = Book("A complete book", 100, 100)
         book2 = Book("An incomplete book", 120, 184)
@@ -120,38 +113,12 @@ class TestGoalTracker(TestCase):
         self.goal += Book("A half complete book", 50, 100)
         self.assertEqual(0.03, self.goal.total_progress)
 
-    # def test_daysAhead_noProgress_returnsDaysElapsed(self):
-    #     self.goal.book_goal = 50
-    #     self.goal.start_date = "2020-01-01"
-    #     self.goal.end_date = "2021-01-01"
-    #
-    #     self.assertEqual(-1, self.goal.days_ahead(current_date="2020-01-02"))
-    #     self.assertEqual(-10, self.goal.days_ahead(
-    #     current_date="2020-01-11"))
-
     def test_booksComplete_returnsNumberOfBooksComplete(self):
         self.goal += Book("A complete book", 100, 100)
         self.goal += Book("An incomplete book", 50, 100)
         self.goal += Book("Another complete book", 100, 100)
 
         self.assertEqual(2, self.goal.num_books_complete)
-
-    # def test_daysAhead_oneBookPerDayComplete_returnsZeroDaysAhead(self):
-    #     self.goal.book_goal = 366
-    #     self.goal += Book("A complete book", 100, 100)
-    #     self.goal.start_date = "2020-01-01"
-    #     self.goal.end_date = "2021-01-01"
-    #
-    #     self.assertEqual(0, self.goal.days_ahead(current_date="2020-01-02"))
-    #     self.assertEqual(-7, self.goal.days_ahead(current_date="2020-01-09"))
-    #
-    # def test_daysAhead_oneBookPerDayAndFiftyDaySAhead_returnsFiftyDaysAhead(self):
-    #     self.goal.book_goal = 366
-    #     self.goal.start_date = "2020-01-01"
-    #     self.goal.end_date = "2021-01-01"
-    #     for _ in range(51):
-    #         self.goal += Book("A complete book", 100, 100)
-    #     self.assertEqual(50, self.goal.days_ahead(current_date="2020-01-02"))
 
     def test_minimumPages_incompleteBook_shouldBeFinished(self):
         self.goal.book_goal = 366
