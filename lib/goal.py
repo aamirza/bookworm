@@ -1,5 +1,5 @@
 import datetime
-from typing import Optional
+from typing import Union
 
 from ibook import iBook
 from book import Book
@@ -8,10 +8,13 @@ from book import Book
 # TODO: Make this database friendly
 # TODO: Fix type hints
 
+date_type = Union[str, datetime.datetime, datetime.date, None]
+todays_date = datetime.datetime.today().date()
+
 class GoalTracker:
     def __init__(self, book_goal: int = 0,
-                 start_date: datetime.date = datetime.datetime.today().date(),
-                 end_date: datetime.date = datetime.datetime.today().date()):
+                 start_date: date_type = todays_date,
+                 end_date: date_type = todays_date):
         self._book_goal = book_goal
         self._start_date = self._convert_to_date(start_date)
         self._end_date = self._convert_to_date(end_date)
@@ -20,7 +23,7 @@ class GoalTracker:
         # to track whether the database should be updated
         self._update_database = True
 
-    def __iadd__(self, value):
+    def __iadd__(self, value: iBook):
         self.add_new_book(value)
         return self
 
