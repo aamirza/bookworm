@@ -4,12 +4,12 @@ from typing import Union
 from ibook import iBook
 from book import Book
 
-
 # TODO: Make this database friendly
 # TODO: Fix type hints
 
 date_type = Union[str, datetime.datetime, datetime.date, None]
 todays_date = datetime.datetime.today().date()
+
 
 class GoalTracker:
     def __init__(self, book_goal: int = 0,

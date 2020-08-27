@@ -3,7 +3,8 @@ import sqlite3
 import time
 from typing import List, Union, Optional
 
-from goal import GoalTracker
+from database.db import db
+from goal_tracker import GoalTracker
 from ibook import iBook, Format
 from book import Book
 from audiobook import Audiobook
@@ -29,77 +30,27 @@ class BookNotFoundError(Exception):
     pass
 
 
-class Shelf:
+class Shelf(db):
     def __init__(self, db_name="shelf.db") -> None:
-        self.conn: sqlite3.Connection = sqlite3.connect(db_name)
-        self.c: sqlite3.Cursor = self.conn.cursor()
-        self.create_tables()
-
-    def __del__(self):
-        self.c.close()
-        self.conn.close()
+        super().__init__(db_name)
 
     def _book_constructor(self,
-                          format: Union[Format, int], title: str,
-                          pages_read: int, total_pages: int,
+                          format: Union[Format, int],
+                          title: str,
+                          pages_read: int,
+                          total_pages: int,
                           start_date: Optional[
                               Union[datetime.datetime, int]] = None):
-        if format == Format.BOOK.value:
+        book_format = Format(format)
+        if book_format == Format.BOOK:
             return Book(title, pages_read, total_pages, start_date)
-        elif format == Format.EBOOK.value:
+        elif book_format == Format.EBOOK:
             return Ebook(title, pages_read, start_date)
-        elif format == Format.AUDIOBOOK.value:
+        elif book_format == Format.AUDIOBOOK:
             return Audiobook(title, pages_read, total_pages, start_date)
 
     def _extract_title(self, book: Union[str, iBook]):
         return book if isinstance(book, str) else book.title
-
-    def create_tables(self) -> None:
-        '''
-        Tables to create:
-            * Formats
-            * Books
-            * Goals (start date, end date, book goal, active)
-        '''
-
-        self.c.execute("""
-        CREATE TABLE IF NOT EXISTS formats (
-            id          integer     PRIMARY KEY AUTOINCREMENT,
-            format      text        NOT NULL UNIQUE
-        );""")
-
-        self.c.execute("""
-        INSERT OR IGNORE INTO formats (id, format)
-        VALUES 
-            (0, "BOOK"), 
-            (1, "EBOOK"), 
-            (2, "AUDIOBOOK")
-        ;""")
-
-        self.c.execute("""
-        CREATE TABLE IF NOT EXISTS books (
-            book_id     integer     PRIMARY KEY AUTOINCREMENT,
-            format      integer     NOT NULL,
-            title       text        NOT NULL UNIQUE,
-            pages_read  integer     DEFAULT 0,
-            total_pages integer     NOT NULL,
-            start_date  integer     NOT NULL DEFAULT (strftime('%s', 'now')),
-            FOREIGN KEY (format)
-                REFERENCES formats (id)
-            CHECK (pages_read <= total_pages) 
-        );""")
-
-        self.c.execute("""
-        CREATE TABLE IF NOT EXISTS goals (
-            goal_id     integer     PRIMARY KEY AUTOINCREMENT,
-            book_goal   integer     NOT NULL,
-            start_date  integer   NOT NULL DEFAULT (strftime('%s', 'now')),
-            end_date    integer   NOT NULL,
-            CHECK (start_date < end_date),
-            CHECK (book_goal > 0)
-        );""")
-
-    # CRUD: Create, read, update, delete
 
     def get_all_tables(self) -> list:
         tables = self.c.execute(
@@ -113,12 +64,13 @@ class Shelf:
             self.c.execute("""
             INSERT INTO books 
             (title, pages_read, total_pages, format, start_date) 
-            VALUES (?, ?, ?, ?, ?)
-            ;""", (
-                title, int(pages_read), int(total_pages), format, start_date))
+            VALUES (?, ?, ?, ?, ?);
+            """, (title, int(pages_read), int(total_pages), format, start_date)
+                           )
 
     @staticmethod
     def _date_to_unix_timestamp(date: datetime.date):
+        """To store datetimes as UNIX timestamps in the database."""
         return time.mktime(date.timetuple())
 
     def add_book(self, book: iBook) -> None:
@@ -132,7 +84,7 @@ class Shelf:
         assert isinstance(book, str) or isinstance(book, iBook), \
             "get_book() accepts only either a string or an iBook type object" \
             " as an argument."
-        title = book if isinstance(book, str) else book.title
+        title = self._extract_title(book)
         self.c.execute("""
         SELECT format, title, pages_read, total_pages, start_date 
         FROM books WHERE title=?
@@ -165,28 +117,30 @@ class Shelf:
         if isinstance(book, str):
             book = self.get_book(book)
 
-        # Get attributes that need to be extracted
-        title = book.title if title is None else title
-        pages_read = book.pages_read if pages_read is None else pages_read
-        total_pages = book.total_pages if total_pages is None else total_pages
+        # Get attributes that need to be updated
+        new_title = book.title if title is None else title
+        new_pages_read = book.pages_read if pages_read is None else pages_read
+        new_total_pages = book.total_pages if total_pages is None else \
+            total_pages
 
         self.c.execute("""
         UPDATE books 
         SET title = ?, pages_read = ?, total_pages = ? 
         WHERE title = ?
-        """, (title, int(pages_read), int(total_pages), book.title))
+        """, (new_title, int(new_pages_read), int(new_total_pages), book.title)
+                       )
 
         # Return updated book object
-        if title != book.title:
+        if new_title != book.title:
             # If the title has changed, return new title
-            return self.get_book(title)
+            return self.get_book(new_title)
         else:
             return self.get_book(book)
 
     def has_book(self, book: Union[iBook, str]) -> bool:
         return self.get_book(book) is not None
 
-    def remove_book(self, book: Union[str, iBook]):
+    def remove_book(self, book: Union[str, iBook]) -> None:
         assert isinstance(book, iBook) or isinstance(book, str), \
             "Book must either be a str (title) or type iBook"
         if not self.has_book(book):

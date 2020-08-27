@@ -2,7 +2,7 @@ from freezegun import freeze_time
 import datetime
 from unittest import TestCase, mock
 
-import goal
+import goal_tracker
 from lib import book, audiobook
 from book import Book
 
@@ -19,7 +19,7 @@ test_nameOfTestedFeature_expectedInput/testState_expectedBehaviour
 
 class TestGoalTracker(TestCase):
     def setUp(self) -> None:
-        self.goal = goal.GoalTracker()
+        self.goal = goal_tracker.GoalTracker()
 
     def test_convertToDate_invalidType_raisesError(self):
         with self.assertRaisesRegex(AssertionError, "Date must be a "):
