@@ -4,7 +4,7 @@ import unittest
 from audiobook import Audiobook, AudiobookSeconds
 from goal_tracker import GoalTracker
 from book import Book
-from database.shelf import Shelf, BookNotFoundError
+from database.books import Shelf, BookNotFoundError
 from ebook import Ebook
 
 """
