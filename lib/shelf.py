@@ -12,7 +12,7 @@ class Shelf:
         else:
             self.books = []
 
-    def __iadd(self, other):
+    def __iadd__(self, other):
         self.add_book(other)
 
     def add_book(self, book: iBook):
@@ -21,9 +21,26 @@ class Shelf:
         self.books.append(book)
 
     @property
+    def is_empty(self):
+        return len(self.books) == 0
+
+    @property
     def incomplete_books(self):
         return [book for book in self.books if not book.is_complete]
 
+    @property
+    def complete_books(self):
+        return [book for book in self.books if book.is_complete]
+
+    @property
+    def num_complete_books(self):
+        return len(self.complete_books)
+
+    @property
+    def num_incomplete_books(self):
+        return len(self.incomplete_books)
+
+    @property
     def num_books_read_and_partially_read(self):
         """
         Calculates the number of books complete, and counts unfinished books

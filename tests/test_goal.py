@@ -77,7 +77,7 @@ class TestGoalTracker(TestCase):
         self.tracker.goal.num_books = 366
         self.tracker.goal.start_date = "2020-01-01"
         self.tracker.goal.end_date = "2021-01-01"
-        self.assertEqual(1, self.tracker.ideal_pace)
+        self.assertEqual(1, self.tracker.goal.ideal_books_per_day)
 
     def test_incompleteBooks(self):
         book1 = Book("A complete book", 100, 100)
@@ -90,19 +90,19 @@ class TestGoalTracker(TestCase):
         self.tracker += book2
         self.tracker += book3
         self.tracker += book4
-        self.assertEqual(2, len(self.tracker._incomplete_books))
-        self.assertEqual([book2, book3], self.tracker._incomplete_books)
+        self.assertEqual(2, self.tracker.shelf.num_incomplete_books)
+        self.assertEqual([book2, book3], self.tracker.shelf.incomplete_books)
 
-    def test_isHabitListEmpty_returnFalse(self):
+    def test_isBookListIsEmpty_returnFalse(self):
         self.assertTrue(self.tracker.shelf_is_empty)
 
-    def test_isHabitListEmpty_returnTrue(self):
+    def test_isBookListEmpty_returnTrue(self):
         self.tracker += Book("A new book", 100, 300)
         self.assertFalse(self.tracker.shelf_is_empty)
 
     def test_goalSetter_newNumber_setsGoal(self):
         self.tracker.goal.num_books = 50
-        self.assertEqual(50, self.tracker.book_goal)
+        self.assertEqual(50, self.tracker.goal.num_books)
 
     def test_goalSetter_negativeNumber_raisesError(self):
         with self.assertRaisesRegex(ValueError,
@@ -120,7 +120,7 @@ class TestGoalTracker(TestCase):
         self.tracker += Book("An incomplete book", 50, 100)
         self.tracker += Book("Another complete book", 100, 100)
 
-        self.assertEqual(2, self.tracker.num_books_complete)
+        self.assertEqual(2, self.tracker.shelf.num_complete_books)
 
     def test_minimumPages_incompleteBook_shouldBeFinished(self):
         self.tracker.goal.num_books = 366
@@ -129,7 +129,7 @@ class TestGoalTracker(TestCase):
         self.tracker += Book("Please finish this book", 0, 200)
         self.assertEqual(200,
                          self.tracker.minimum_pages_needed(
-                             self.tracker.books[0]))
+                             self.tracker.shelf.books[0]))
 
     @freeze_time("2020-01-02")
     def test_minimumPages_incompleteAudiobook_shouldBeHalfFinished(self):
@@ -140,7 +140,7 @@ class TestGoalTracker(TestCase):
                                          "0:00:00", "20:00:00")
         self.assertEqual(36000,
                          self.tracker.minimum_pages_needed(
-                             self.tracker.books[0]))
+                             self.tracker.shelf.books[0]))
 
     @freeze_time("2020-01-02")
     def test_minimumPages_beingAhead_returnsProgressForOneDay(self):
@@ -151,7 +151,7 @@ class TestGoalTracker(TestCase):
         self.tracker += Book("An incomplete book", 7, 50)
         self.assertEqual(25,
                          self.tracker.minimum_pages_needed(
-                             self.tracker.books[1]))
+                             self.tracker.shelf.books[1]))
 
     def test_minimumPages_nextDayProgress_returnsProgressForOneDay(self):
         self.tracker.goal.num_books = 183
@@ -160,4 +160,4 @@ class TestGoalTracker(TestCase):
         self.tracker += Book("1 book finished", 100, 100)
         self.tracker += Book("Next book unfinished", 237, 700)
         self.assertEqual(350, self.tracker.minimum_pages_needed(
-            self.tracker.books[1], force_next_day=True))
+            self.tracker.shelf.books[1], force_next_day=True))

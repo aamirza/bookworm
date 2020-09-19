@@ -68,11 +68,6 @@ class Shelf(db):
             """, (title, int(pages_read), int(total_pages), format, start_date)
                            )
 
-    @staticmethod
-    def _date_to_unix_timestamp(date: datetime.date):
-        """To store datetimes as UNIX timestamps in the database."""
-        return time.mktime(date.timetuple())
-
     def add_book(self, book: iBook) -> None:
         assert isinstance(book, iBook), "The book you pass into add_book() " \
                                         "should be of type iBook."
@@ -150,16 +145,6 @@ class Shelf(db):
         self.c.execute("""
         DELETE FROM books WHERE title = ?
         """, (title,))
-
-    def add_goal(self, goal: GoalTracker):
-        assert type(goal) is GoalTracker, "goal must be of type GoalTracker"
-        self.c.execute("""
-        INSERT INTO goals (book_goal, start_date, end_date) VALUES (?, ?, ?) 
-        """, (
-            goal.goal,
-            self._date_to_unix_timestamp(goal.start_date),
-            self._date_to_unix_timestamp(goal.end_date)
-        ))
 
     def get_current_goals(self):
         self.c.execute("""

@@ -1,4 +1,6 @@
+import datetime
 import sqlite3
+import time
 
 
 class db:
@@ -55,3 +57,8 @@ class db:
             CHECK (start_date < end_date),
             CHECK (book_goal > 0)
         );""")
+
+    @staticmethod
+    def _date_to_unix_timestamp(date: datetime.date):
+        """To store datetimes as UNIX timestamps in the database."""
+        return time.mktime(date.timetuple())
