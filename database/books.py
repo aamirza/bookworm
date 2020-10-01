@@ -30,7 +30,7 @@ class BookNotFoundError(Exception):
     pass
 
 
-class Shelf(db):
+class Books(db):
     def __init__(self, db_name="shelf.db") -> None:
         super().__init__(db_name)
 
@@ -145,10 +145,3 @@ class Shelf(db):
         self.c.execute("""
         DELETE FROM books WHERE title = ?
         """, (title,))
-
-    def get_current_goals(self):
-        self.c.execute("""
-        SELECT book_goal, start_date, end_date
-        FROM goals
-        """)
-        return self.c.fetchall()

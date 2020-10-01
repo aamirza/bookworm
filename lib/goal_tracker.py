@@ -16,6 +16,9 @@ today = datetime.datetime.today().date()
 class GoalTracker:
     def __init__(self, book_goal: int = 0, start_date: Date = today,
                  end_date: Date = today):
+        # TODO: Initialize with goal_id instead.
+        # Only one goal at a time. Old goals get archived.
+        # Just get the last goal on the list.
         self.goal = Goal(book_goal, start_date, end_date)
         self.shelf = Shelf()
 

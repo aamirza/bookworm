@@ -4,7 +4,7 @@ import unittest
 from audiobook import Audiobook, AudiobookSeconds
 from goal_tracker import GoalTracker
 from book import Book
-from database.books import Shelf, BookNotFoundError
+from database.books import Books, BookNotFoundError
 from ebook import Ebook
 
 """
@@ -15,7 +15,7 @@ test_nameOfTestedFeature_expectedInput/testState_expectedBehaviour
 
 class TestDatabase(unittest.TestCase):
     def setUp(self) -> None:
-        self.shelf = Shelf(":memory:")
+        self.shelf = Books(":memory:")
 
     def test_createTables_searchDatabases_GetsAllDatabases(self) -> None:
         self.assertEqual(['formats', 'sqlite_sequence', 'books', 'goals'],
@@ -91,13 +91,6 @@ class TestDatabase(unittest.TestCase):
         self.shelf.add_book(book)
         self.shelf.remove_book(book)
         self.assertFalse(self.shelf.has_book(book))
-
-    @freeze_time("2020-07-31")
-    def test_addGoal_addsGoalToDatabase(self):
-        goal = GoalTracker(50, "2020-01-01", "2020-12-31")
-        self.shelf.add_goal(goal)
-        self.assertEqual([goal], self.shelf.get_current_goals())
-
 
 if __name__ == '__main__':
     unittest.main()

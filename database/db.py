@@ -44,7 +44,7 @@ class db:
             total_pages integer     NOT NULL,
             start_date  integer     NOT NULL DEFAULT (strftime('%s', 'now')),
             FOREIGN KEY (format)
-                REFERENCES formats (id)
+                REFERENCES formats (id),
             CHECK (pages_read <= total_pages) 
         );""")
 
@@ -52,10 +52,26 @@ class db:
         CREATE TABLE IF NOT EXISTS goals (
             goal_id     integer     PRIMARY KEY AUTOINCREMENT,
             book_goal   integer     NOT NULL,
-            start_date  integer   NOT NULL DEFAULT (strftime('%s', 'now')),
-            end_date    integer   NOT NULL,
+            start_date  integer     NOT NULL DEFAULT (strftime('%s', 'now')),
+            end_date    integer     NOT NULL,
+            creation_time integer   NOT NULL DEFAULT (strftime('%s', 'now'))
             CHECK (start_date < end_date),
             CHECK (book_goal > 0)
+        );""")
+
+        self.c.execute("""
+        CREATE TABLE IF NOT EXISTS goalbooks (
+            goal_id     integer     PRIMARY KEY,
+            book_id     integer     PRIMARY KEY,
+            pages_read  integer     NOT NULL DEFAULT 0,
+            completion  integer     NOT NULL,
+            FOREIGN KEY (goal_id) 
+                REFERENCES goals(goal_id)
+                ON DELETE CASCADE,
+            FOREIGN KEY (book_id) 
+                REFERENCES books(book_id)
+                ON DELETE CASCADE,
+            PRIMARY KEY (goal_id,book_id)
         );""")
 
     @staticmethod

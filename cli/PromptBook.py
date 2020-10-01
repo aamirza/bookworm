@@ -1,6 +1,6 @@
 import datetime
 
-from cli.Prompt import Prompt
+from cli.option import Prompt
 
 
 class PromptBook(Prompt):

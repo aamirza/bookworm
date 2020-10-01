@@ -1,4 +1,5 @@
 import datetime
+import time
 
 
 class InternalError(Exception):
@@ -11,9 +12,18 @@ class Goal:
         self._start_date = self._convert_to_date(start_date)
         self._end_date = self._convert_to_date(end_date)
 
+    def __eq__(self, other):
+        if isinstance(other, Goal):
+            equal_start_date = self.start_date == other.start_date
+            equal_end_date = self.end_date == other.end_date
+            equal_num_books = self.num_books == other.num_books
+            if equal_end_date and equal_start_date and equal_num_books:
+                return True
+        return False
+
     @staticmethod
     def _convert_to_date(value) -> datetime.date:
-        assert type(value) in (str, datetime.date, datetime.datetime), \
+        assert type(value) in (str, datetime.date, datetime.datetime, int), \
             "Date must be a datetime, date or string object."
         if isinstance(value, str):
             date = datetime.datetime.strptime(value, "%Y-%m-%d").date()
@@ -21,6 +31,8 @@ class Goal:
             date = value.date()
         elif isinstance(value, datetime.date):
             date = value
+        elif isinstance(value, int):
+            date = datetime.datetime.fromtimestamp(value).date()
         else:
             raise InternalError("Couldn't convert date.")
         return date
