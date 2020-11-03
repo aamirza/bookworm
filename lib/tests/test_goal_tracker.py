@@ -24,7 +24,7 @@ class TestGoalTracker(TestCase):
 
     def test_convertToDate_invalidType_raisesError(self):
         with self.assertRaisesRegex(AssertionError, "Date must be a "):
-            Goal._convert_to_date(15728)
+            Goal._convert_to_date({"my_date": "2020-01-13"})
 
     def test_convertToDate_datetime_convertsToDate(self):
         self.assertEqual(
@@ -78,20 +78,6 @@ class TestGoalTracker(TestCase):
         self.tracker.goal.start_date = "2020-01-01"
         self.tracker.goal.end_date = "2021-01-01"
         self.assertEqual(1, self.tracker.goal.ideal_books_per_day)
-
-    def test_incompleteBooks(self):
-        book1 = Book("A complete book", 100, 100)
-        book2 = Book("An incomplete book", 120, 184)
-        book3 = audiobook.Audiobook("An incomplete audiobook", "5:23:12",
-                                    "7:12:11")
-        book4 = audiobook.Audiobook("A complete audibook", "9:14:23",
-                                    "9:14:23")
-        self.tracker += book1
-        self.tracker += book2
-        self.tracker += book3
-        self.tracker += book4
-        self.assertEqual(2, self.tracker.shelf.num_incomplete_books)
-        self.assertEqual([book2, book3], self.tracker.shelf.incomplete_books)
 
     def test_isBookListIsEmpty_returnFalse(self):
         self.assertTrue(self.tracker.shelf_is_empty)

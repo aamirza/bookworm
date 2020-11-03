@@ -23,12 +23,12 @@ class db:
 
         self.c.execute("""
         CREATE TABLE IF NOT EXISTS formats (
-            id          integer     PRIMARY KEY AUTOINCREMENT,
-            format      text        NOT NULL UNIQUE
+            id              integer     PRIMARY KEY AUTOINCREMENT,
+            format_name     text        NOT NULL UNIQUE
         );""")
 
         self.c.execute("""
-        INSERT OR IGNORE INTO formats (id, format)
+        INSERT OR IGNORE INTO formats (id, format_name)
         VALUES 
             (0, "BOOK"), 
             (1, "EBOOK"), 
@@ -37,20 +37,17 @@ class db:
 
         self.c.execute("""
         CREATE TABLE IF NOT EXISTS books (
-            book_id     integer     PRIMARY KEY AUTOINCREMENT,
-            format      integer     NOT NULL,
-            title       text        NOT NULL UNIQUE,
-            pages_read  integer     DEFAULT 0,
-            total_pages integer     NOT NULL,
-            start_date  integer     NOT NULL DEFAULT (strftime('%s', 'now')),
-            FOREIGN KEY (format)
-                REFERENCES formats (id),
-            CHECK (pages_read <= total_pages) 
+            id              integer     PRIMARY KEY AUTOINCREMENT,
+            format_id       integer     NOT NULL,
+            title           text        NOT NULL UNIQUE,
+            total_pages     integer     NOT NULL,
+            FOREIGN KEY (format_id)
+                REFERENCES formats(id)
         );""")
 
         self.c.execute("""
         CREATE TABLE IF NOT EXISTS goals (
-            goal_id     integer     PRIMARY KEY AUTOINCREMENT,
+            id          integer     PRIMARY KEY AUTOINCREMENT,
             book_goal   integer     NOT NULL,
             start_date  integer     NOT NULL DEFAULT (strftime('%s', 'now')),
             end_date    integer     NOT NULL,
@@ -61,8 +58,8 @@ class db:
 
         self.c.execute("""
         CREATE TABLE IF NOT EXISTS goalbooks (
-            goal_id     integer     PRIMARY KEY,
-            book_id     integer     PRIMARY KEY,
+            goal_id     integer,
+            book_id     integer,
             pages_read  integer     NOT NULL DEFAULT 0,
             completion  integer     NOT NULL,
             FOREIGN KEY (goal_id) 
@@ -71,7 +68,7 @@ class db:
             FOREIGN KEY (book_id) 
                 REFERENCES books(book_id)
                 ON DELETE CASCADE,
-            PRIMARY KEY (goal_id,book_id)
+            PRIMARY KEY (goal_id, book_id)
         );""")
 
     @staticmethod

@@ -18,7 +18,8 @@ class TestDatabase(unittest.TestCase):
         self.shelf = Books(":memory:")
 
     def test_createTables_searchDatabases_GetsAllDatabases(self) -> None:
-        self.assertEqual(['formats', 'sqlite_sequence', 'books', 'goals'],
+        self.assertEqual(['formats', 'sqlite_sequence', 'books', 'goals',
+                          'goalbooks'],
                          self.shelf.get_all_tables())
 
     def test_addBook_addingBookObject_addsToDatabase(self) -> None:

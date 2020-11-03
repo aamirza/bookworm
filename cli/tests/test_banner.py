@@ -5,11 +5,25 @@ import cli.banner as new_prompt
 class PromptMessageTest(unittest.TestCase):
 
     def test_fullLine(self):
-        self.assertEqual(new_prompt.full_line("*"), "*" * 50)
+        self.assertEqual(new_prompt.full_line("*", chars_per_line=50),
+                         "*" * 50)
+        self.assertEqual(new_prompt.full_line("-", chars_per_line=55),
+                         '-' * 55)
 
     def test_padded_message(self):
         message = "#" * 3 + " " * 21 + "HI" + " " * 21 + "#" * 3
         self.assertEqual(new_prompt.padded_message("HI"), message)
+
+    def test_padded_odd_message(self):
+        message = "#" * 3 + " " * 20 + "HEY" + " " * 21 + "#" * 3
+        self.assertEqual(new_prompt.padded_message("HEY"), message)
+
+    def test_custom_paddeed_message(self):
+        message = "--- WOW ---"
+        self.assertEqual(
+            new_prompt.padded_message("WOW", pad_char="-", chars_per_line=11),
+            message
+        )
 
     def test_welcomeMessage(self):
         test_string = ""

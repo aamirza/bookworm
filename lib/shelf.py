@@ -1,10 +1,11 @@
 """Shelf class, to be used with the BOOKS table in the database"""
+import collections
 from typing import List
 
 from ibook import iBook
 
 
-class Shelf:
+class Shelf(collections.abc.Sequence):
     def __init__(self, books=None):
         """Shelf class, to be used with the BOOKS table in the database"""
         if books:
@@ -15,6 +16,15 @@ class Shelf:
     def __iadd__(self, other):
         self.add_book(other)
 
+    def __getitem__(self, item):
+        return self.books[item]
+
+    def __len__(self):
+        return len(self.books)
+
+    def contains(self, item):
+        return self.__contains__(item)
+
     def add_book(self, book: iBook):
         assert isinstance(book, iBook), "The book you are adding should be" \
                                         "of type iBook"
@@ -22,11 +32,11 @@ class Shelf:
 
     @property
     def is_empty(self):
-        return len(self.books) == 0
+        return len(self) == 0
 
     @property
     def incomplete_books(self):
-        return [book for book in self.books if not book.is_complete]
+        return [book for book in self if not book.is_complete]
 
     @property
     def complete_books(self):
