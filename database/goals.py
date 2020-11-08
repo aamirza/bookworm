@@ -14,12 +14,15 @@ class Goals(db):
         self.c.execute("""
         SELECT book_goal, start_date, end_date
         FROM goals
-        WHERE goal_id = (SELECT MAX(goal_id) FROM goals)
+        WHERE active = 1
         """)
         try:
             goal = Goal(*self.c.fetchone())
         except TypeError:
-            raise NoGoalCreatedError("You have no goals initialized.")
+            if len(self.get_all_goals()) == 0:
+                raise NoGoalCreatedError("You have no goals initialized.")
+            else:
+                goal = None
         return goal
 
     def get_all_goals(self):
@@ -32,6 +35,7 @@ class Goals(db):
 
     def add_goal(self, goal: Goal):
         assert type(goal) is Goal, "goal must be of type GoalTracker"
+        self.inactivate_all_goals()
         self.c.execute("""
         INSERT INTO GOALS (book_goal, start_date, end_date) VALUES (?, ?, ?) 
         """, (
@@ -39,3 +43,10 @@ class Goals(db):
             self._date_to_unix_timestamp(goal.start_date),
             self._date_to_unix_timestamp(goal.end_date)
         ))
+
+    def inactivate_all_goals(self):
+        self.c.execute("""
+        UPDATE GOALS
+        SET active = 0
+        WHERE active = 1
+        """)

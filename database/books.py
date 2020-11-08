@@ -60,13 +60,15 @@ class Books(db):
     def _add_book(self, title: str, pages_read: int, total_pages: int,
                   format: int, start_date: int) -> None:
         """Add a book to the database"""
+        # TODO: Create a goalbooks field
         with self.conn:
             self.c.execute("""
-            INSERT INTO books 
-            (title, pages_read, total_pages, format, start_date) 
-            VALUES (?, ?, ?, ?, ?);
-            """, (title, int(pages_read), int(total_pages), format, start_date)
-                           )
+            INSERT INTO books (title, total_pages, format_id) 
+            VALUES (?, ?, ?);
+            """, (title, int(total_pages), format))
+            # Insert into goalbooks the book to the active goal with the
+            # correct amount of pages read and the date you started reading
+            # the book, and maybe the end date?
 
     def add_book(self, book: iBook) -> None:
         assert isinstance(book, iBook), "The book you pass into add_book() " \
@@ -107,7 +109,7 @@ class Books(db):
         """
         if not self.has_book(book):
             raise BookNotFoundError('The book you are trying to update ' \
-                                    'must already be in the database.')
+                                    'was not found in the database.')
         # If book title is passed, get the book object
         if isinstance(book, str):
             book = self.get_book(book)

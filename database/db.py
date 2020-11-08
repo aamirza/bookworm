@@ -51,9 +51,10 @@ class db:
             book_goal   integer     NOT NULL,
             start_date  integer     NOT NULL DEFAULT (strftime('%s', 'now')),
             end_date    integer     NOT NULL,
-            creation_time integer   NOT NULL DEFAULT (strftime('%s', 'now'))
+            active      integer     NOT NULL DEFAULT 1
             CHECK (start_date < end_date),
-            CHECK (book_goal > 0)
+            CHECK (book_goal > 0),
+            CHECK (active BETWEEN 0 and 1)
         );""")
 
         self.c.execute("""

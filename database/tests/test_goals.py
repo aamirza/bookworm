@@ -34,6 +34,12 @@ class GoalDatabaseTests(unittest.TestCase):
                                      "You have no goals"):
             self.goals.get_current_goal()
 
+    def test_inactivateAllGoals(self):
+        self.add_two_goals_to_database()
+        self.goals.inactivate_all_goals()
+        self.assertIsNone(self.goals.get_current_goal())
+
+
 
 if __name__ == '__main__':
     unittest.main()
