@@ -13,7 +13,7 @@ test_nameOfTestedFeature_expectedInput/testState_expectedBehaviour
 """
 
 
-class TestDatabase(unittest.TestCase):
+class TestBookDatabase(unittest.TestCase):
     def setUp(self) -> None:
         self.shelf = Books(":memory:")
 
@@ -92,6 +92,7 @@ class TestDatabase(unittest.TestCase):
         self.shelf.add_book(book)
         self.shelf.remove_book(book)
         self.assertFalse(self.shelf.has_book(book))
+
 
 if __name__ == '__main__':
     unittest.main()

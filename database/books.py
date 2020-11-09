@@ -66,15 +66,19 @@ class Books(db):
             INSERT INTO books (title, total_pages, format_id) 
             VALUES (?, ?, ?);
             """, (title, int(total_pages), format))
-            # Insert into goalbooks the book to the active goal with the
-            # correct amount of pages read and the date you started reading
-            # the book, and maybe the end date?
+            self.c.execute("""
+            INSERT INTO goalbooks (goal_id, book_id, pages_read, start_date)
+            VALUES ((SELECT id FROM goals WHERE active = 1),
+            (SELECT id FROM books WHERE title = ?), 
+            ?, ?)
+            """, (title, int(pages_read), start_date))
 
     def add_book(self, book: iBook) -> None:
         assert isinstance(book, iBook), "The book you pass into add_book() " \
                                         "should be of type iBook."
         self._add_book(book.title, book.pages_read, book.total_pages,
-                       book.format.value, book.start_date)
+                       book.format.value,
+                       self._date_to_unix_timestamp(book.start_date))
 
     def get_book(self, book: Union[iBook, str]) -> iBook:
         """Get a book from the database"""
@@ -83,8 +87,11 @@ class Books(db):
             " as an argument."
         title = self._extract_title(book)
         self.c.execute("""
-        SELECT format, title, pages_read, total_pages, start_date 
-        FROM books WHERE title=?
+        SELECT b.format_id, b.title, gb.pages_read, b.total_pages, 
+        gb.start_date 
+        FROM books b JOIN goalbooks gb
+        ON (id = book_id)
+        WHERE title=?
         """, (title,))
         book = self.c.fetchone()
         return None if book is None else self._book_constructor(*book)
@@ -92,8 +99,11 @@ class Books(db):
     def get_all_books(self):
         """"Get all books from the database"""
         self.c.execute("""
-        SELECT format, title, pages_read, total_pages,  start_date FROM books 
-        ORDER BY book_id
+        SELECT b.format_id, b.title, gb.pages_read, b.total_pages, 
+        gb.start_date 
+        FROM books b JOIN goalbooks gb
+        ON (id = book_id)
+        ORDER BY b.id
         """)
         books = [self._book_constructor(*book) for book in self.c.fetchall()]
         return books
@@ -103,6 +113,7 @@ class Books(db):
                     pages_read: Optional[int] = None,
                     total_pages: Optional[int] = None
                     ) -> iBook:
+        # TODO: Needs to be broken up. Pages read separate from title/total pages
         """
         Update a book in the database by passing either its title or
         the book object itself.

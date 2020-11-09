@@ -57,12 +57,14 @@ class db:
             CHECK (active BETWEEN 0 and 1)
         );""")
 
+
         self.c.execute("""
         CREATE TABLE IF NOT EXISTS goalbooks (
             goal_id     integer,
             book_id     integer,
             pages_read  integer     NOT NULL DEFAULT 0,
-            completion  integer     NOT NULL,
+            start_date  integer     NOT NULL DEFAULT (strftime('%s', 'now')),
+            end_date    integer,
             FOREIGN KEY (goal_id) 
                 REFERENCES goals(goal_id)
                 ON DELETE CASCADE,
