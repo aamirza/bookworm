@@ -28,7 +28,13 @@ def parse_args(args):
     # Add argument for add goal
     goal_parser(parser)
     # Add argument for add book
-    parser.add_argument("-ab", "--ab", "-add_book")
+    parser.add_argument('-ab', '--ab', '-add_book', action='store',
+                        nargs='+',
+                        help="Number of books you want to read, and by "
+                             "what date you want to accomplish this "
+                             "goal.",
+                        metavar=("NUM_OF_BOOKS", "end_date"),
+                        dest="Goal")
     # Add argument for update book
     return parser.parse_args(args)
 
