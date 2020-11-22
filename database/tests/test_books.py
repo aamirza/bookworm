@@ -1,7 +1,11 @@
+import datetime
+
 from freezegun import freeze_time
 import unittest
 
 from audiobook import Audiobook, AudiobookSeconds
+from database.goals import Goals
+from goal import Goal
 from goal_tracker import GoalTracker
 from book import Book
 from database.books import Books, BookNotFoundError
@@ -15,7 +19,20 @@ test_nameOfTestedFeature_expectedInput/testState_expectedBehaviour
 
 class TestBookDatabase(unittest.TestCase):
     def setUp(self) -> None:
+        today = datetime.datetime.today()
+        year_from_today = today + datetime.timedelta(days=365)
         self.shelf = Books(":memory:")
+        # We need a goal before we can add books
+        self.shelf.c.execute("""
+         INSERT INTO GOALS (book_goal, start_date, end_date) VALUES (?, ?, ?) 
+         """, (
+            50,
+            self.shelf._date_to_unix_timestamp(today),
+            self.shelf._date_to_unix_timestamp(year_from_today)
+        ))
+
+    def test_goalExists(self):
+        self.assertTrue(self.shelf.active_goal_exists())
 
     def test_createTables_searchDatabases_GetsAllDatabases(self) -> None:
         self.assertEqual(['formats', 'sqlite_sequence', 'books', 'goals',
@@ -44,7 +61,7 @@ class TestBookDatabase(unittest.TestCase):
         book = Book("You should read this book today", 120, 582)
         self.shelf.add_book(book)
         self.assertEqual([book], self.shelf.get_all_books())
-        self.shelf.update_book(book, pages_read=192)
+        self.shelf.update_pages_read(book, pages_read=192)
         self.assertEqual(192, self.shelf.get_book(book).pages_read)
 
     def test_updateBook_updatingBookNotInDatabase_raisesError(self):
@@ -53,13 +70,12 @@ class TestBookDatabase(unittest.TestCase):
         book2 = Book("This is my second book", 0, 1200)
         with self.assertRaisesRegex(BookNotFoundError,
                                     "The book you are trying"):
-            self.shelf.update_book(book2, pages_read=100)
+            self.shelf.update_book(book2, title="Woah")
 
     def test_updateBook_updateAudiobookSeconds_updatesAudiobookSeconds(self):
         audiobook = Audiobook("A relaxing book", "2:27:41", "19:21:34")
         self.shelf.add_book(audiobook)
-        self.shelf.update_book(audiobook,
-                               pages_read=AudiobookSeconds("4:51:26"))
+        self.shelf.update_pages_read(audiobook, AudiobookSeconds("4:51:26"))
 
     def test_getBook_bookObject_getsBookFromDatabase(self):
         book1 = Book("This is a book", 100, 200)

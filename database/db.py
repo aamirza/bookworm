@@ -78,3 +78,11 @@ class db:
     def _date_to_unix_timestamp(date: datetime.date):
         """To store datetimes as UNIX timestamps in the database."""
         return time.mktime(date.timetuple())
+
+    def active_goal_exists(self):
+        self.c.execute("""
+        SELECT *
+        FROM goals
+        WHERE active = 1
+        """)
+        return len(self.c.fetchall()) == 1

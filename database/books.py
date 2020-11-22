@@ -4,7 +4,7 @@ import time
 from typing import List, Union, Optional
 
 from database.db import db
-from goal_tracker import GoalTracker
+from database.goals import NoGoalCreatedError
 from ibook import iBook, Format
 from book import Book
 from audiobook import Audiobook
@@ -57,15 +57,16 @@ class Books(db):
             "SELECT name FROM sqlite_master WHERE type='table';")
         return [table[0] for table in tables]
 
-    def _add_book(self, title: str, pages_read: int, total_pages: int,
-                  format: int, start_date: int) -> None:
+    def _add_book(self, title: str, total_pages: int, format: int, ) -> None:
         """Add a book to the database"""
-        # TODO: Create a goalbooks field
         with self.conn:
             self.c.execute("""
             INSERT INTO books (title, total_pages, format_id) 
             VALUES (?, ?, ?);
             """, (title, int(total_pages), format))
+
+    def _add_goal_book(self, title, pages_read, start_date):
+        with self.conn:
             self.c.execute("""
             INSERT INTO goalbooks (goal_id, book_id, pages_read, start_date)
             VALUES ((SELECT id FROM goals WHERE active = 1),
@@ -76,15 +77,19 @@ class Books(db):
     def add_book(self, book: iBook) -> None:
         assert isinstance(book, iBook), "The book you pass into add_book() " \
                                         "should be of type iBook."
-        self._add_book(book.title, book.pages_read, book.total_pages,
-                       book.format.value,
-                       self._date_to_unix_timestamp(book.start_date))
+        if self.active_goal_exists():
+            self._add_book(book.title, book.total_pages, book.format.value)
+            self._add_goal_book(book.title, book.pages_read, book.start_date)
+        else:
+            raise NoGoalCreatedError("You must have a goal before you can add"
+                                     " a book to the database.")
 
     def get_book(self, book: Union[iBook, str]) -> iBook:
         """Get a book from the database"""
         assert isinstance(book, str) or isinstance(book, iBook), \
             "get_book() accepts only either a string or an iBook type object" \
             " as an argument."
+
         title = self._extract_title(book)
         self.c.execute("""
         SELECT b.format_id, b.title, gb.pages_read, b.total_pages, 
@@ -108,9 +113,22 @@ class Books(db):
         books = [self._book_constructor(*book) for book in self.c.fetchall()]
         return books
 
+    def update_pages_read(self, book: Union[iBook, str], pages_read):
+        if not self.has_book(book):
+            raise BookNotFoundError('The book you are trying to update ' \
+                                    'was not found in the database.')
+        if isinstance(book, str):
+            book = self.get_book(book)
+
+        with self.conn:
+            self.c.execute("""
+            UPDATE goalbooks
+            SET pages_read = ?
+            WHERE (book_id = (SELECT id FROM books WHERE title = ?))
+            """, (int(pages_read), book.title))
+
     def update_book(self, book: Union[iBook, str], *,
                     title: Optional[str] = None,
-                    pages_read: Optional[int] = None,
                     total_pages: Optional[int] = None
                     ) -> iBook:
         # TODO: Needs to be broken up. Pages read separate from title/total pages
@@ -127,15 +145,14 @@ class Books(db):
 
         # Get attributes that need to be updated
         new_title = book.title if title is None else title
-        new_pages_read = book.pages_read if pages_read is None else pages_read
         new_total_pages = book.total_pages if total_pages is None else \
             total_pages
 
         self.c.execute("""
         UPDATE books 
-        SET title = ?, pages_read = ?, total_pages = ? 
+        SET title = ?, total_pages = ? 
         WHERE title = ?
-        """, (new_title, int(new_pages_read), int(new_total_pages), book.title)
+        """, (new_title, int(new_total_pages), book.title)
                        )
 
         # Return updated book object

@@ -39,6 +39,13 @@ class GoalDatabaseTests(unittest.TestCase):
         self.goals.inactivate_all_goals()
         self.assertIsNone(self.goals.get_current_goal())
 
+    def test_activeGoalExists_noActiveGoal_returnsFalse(self):
+        self.assertFalse(self.goals.active_goal_exists())
+
+    def test_activeGoalExists_noActiveGoal_returnsTrue(self):
+        self.add_two_goals_to_database()
+        self.assertTrue(self.goals.active_goal_exists())
+
 
 
 if __name__ == '__main__':
