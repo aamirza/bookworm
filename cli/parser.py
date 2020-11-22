@@ -5,6 +5,15 @@ PROGRAM_NAME = "Bookworm"
 PROGRAM_DESCRIPTION = "Have a book reading goal and keep track of your " \
                       "progress"
 
+COMMANDS = ['add_goal', '-ag',
+            'add_book', '-ab',
+            'add_ibook', '-aib',
+            'add_audiobook', 'add_ab', '-aab',
+            'update_goal', '-ug',
+            'update_book', '-ub',
+            'drop_book', '-db',
+            ]
+
 
 def goal_parser(parser):
     return parser.add_argument('-ag', '--ag', '-add_goal',
@@ -25,17 +34,11 @@ def parse_args(args):
         # No arguments passed
         # By default, recommendations should be shown
         pass
-    # Add argument for add goal
-    goal_parser(parser)
-    # Add argument for add book
-    parser.add_argument('-ab', '--ab', '-add_book', action='store',
-                        nargs='+',
-                        help="Number of books you want to read, and by "
-                             "what date you want to accomplish this "
-                             "goal.",
-                        metavar=("NUM_OF_BOOKS", "end_date"),
-                        dest="Goal")
-    # Add argument for update book
+    parser.add_argument("command", choices=COMMANDS,
+                        metavar="command")
+    # TODO: Add argument for add goal
+    # TODO: Add argument for add book
+    # TODO: Add argument for update book
     return parser.parse_args(args)
 
 
