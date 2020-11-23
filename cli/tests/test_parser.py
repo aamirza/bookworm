@@ -8,7 +8,8 @@ class TestParser(unittest.TestCase):
 
     # A test for when you don't have a goal in the database
     def test_NoGoal_showsHelpMessage(self):
-        self.assertTrue(parser.parse_args([]))
+        self.assertEqual(argparse.Namespace(command='add_goal'),
+                         parser.parse_args(['add_goal']))
 
     def test_addValidGoal(self):
         pass

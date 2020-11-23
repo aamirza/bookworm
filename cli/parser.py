@@ -1,18 +1,20 @@
 import argparse
 import sys
+from enum import Enum
 
 PROGRAM_NAME = "Bookworm"
 PROGRAM_DESCRIPTION = "Have a book reading goal and keep track of your " \
                       "progress"
 
-COMMANDS = ['add_goal', '-ag',
-            'add_book', '-ab',
-            'add_ibook', '-aib',
-            'add_audiobook', 'add_ab', '-aab',
-            'update_goal', '-ug',
-            'update_book', '-ub',
-            'drop_book', '-db',
-            ]
+COMMANDS = [
+    'add_goal',
+    'add_book',
+    'add_ibook',
+    'add_audiobook',
+    'update_goal',
+    'update_book',
+    'drop_book',
+]
 
 
 def goal_parser(parser):
@@ -26,6 +28,10 @@ def goal_parser(parser):
                                dest="Goal")
 
 
+# TODO: Add argument for add goal
+# TODO: Add argument for add book
+# TODO: Add argument for update book
+
 def parse_args(args):
     parser = argparse.ArgumentParser(prog=PROGRAM_NAME,
                                      description=PROGRAM_DESCRIPTION)
@@ -34,11 +40,8 @@ def parse_args(args):
         # No arguments passed
         # By default, recommendations should be shown
         pass
-    parser.add_argument("command", choices=COMMANDS,
-                        metavar="command")
-    # TODO: Add argument for add goal
-    # TODO: Add argument for add book
-    # TODO: Add argument for update book
+    # TODO: Create a proper help
+    parser.add_argument("command", choices=COMMANDS, metavar="command")
     return parser.parse_args(args)
 
 
