@@ -97,8 +97,8 @@ class db:
         self.c.execute("""
         SELECT *
         FROM goals
-        WHERE active = 1
-        """)
+        WHERE active = 1 AND end_date > ?
+        """, (time.time(),))
         return len(self.c.fetchall()) == 1
 
     def get_all_tables(self) -> list:

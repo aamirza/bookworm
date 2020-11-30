@@ -2,8 +2,7 @@ import argparse
 import datetime
 import sys
 
-from cli import validate
-import database.goals as goals_db
+from cli import goal_parser
 
 
 PROGRAM_NAME = "Bookworm"
@@ -19,29 +18,6 @@ COMMANDS = (
     'update_book',
     'drop_book',
 )
-
-
-def goal_parser(args):
-    # TODO: Add argument for add goal
-    today = datetime.datetime.today().date()
-    year_from_now = datetime.datetime(today.year + 1, today.month, today.day) \
-        .date()
-
-    parser = argparse.ArgumentParser(prog="Bookworm add_goal")
-    parser.add_argument('number_of_books', type=validate.goal_number,
-                        help="Number of books you want to read.")
-    parser.add_argument("end_date", default=year_from_now, nargs="?",
-                        type=validate.get_future_date,
-                        help="When you want this goal to end. Default: Year "
-                             "from now.")
-    parser.add_argument("-sd", "--sd", "-start_date", type=validate.get_date,
-                        metavar="start_date", default=today,
-                        dest="start_date",
-                        help="The day you started this goal. Default: Today")
-    goal = parser.parse_args(args)
-    goal = validate.goal(goal.number_of_books, goal.start_date, goal.end_date)
-    return goal
-
 
 # TODO: Add argument for add book
 # TODO: Add argument for update book
@@ -67,9 +43,7 @@ def main(args):
         pass
     command = parse_command([args[1]])
     if command == 'add_goal':
-        db = goals_db.Goals()
-        goal = goal_parser(args[2:])
-        db.add_goal(goal)
+        goal_parser.parse(args[2:])
 
 
 if __name__ == "__main__":
