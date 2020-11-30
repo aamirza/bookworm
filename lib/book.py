@@ -1,6 +1,6 @@
 import datetime
 
-from ibook import iBook, Format
+from lib.ibook import iBook, Format
 
 
 class Book(iBook):

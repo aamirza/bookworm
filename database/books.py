@@ -5,10 +5,10 @@ from typing import List, Union, Optional
 
 from database.db import db
 from database.goals import NoGoalCreatedError
-from ibook import iBook, Format
-from book import Book
-from audiobook import Audiobook
-from ebook import Ebook
+from lib.ibook import iBook, Format
+from lib.book import Book
+from lib.audiobook import Audiobook
+from lib.ebook import Ebook
 
 """
 What will the database output?

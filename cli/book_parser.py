@@ -1,7 +1,7 @@
 import argparse
 
 from database.books import Books as Books_db
-import validate
+from cli import validate
 
 
 def parse(args):
