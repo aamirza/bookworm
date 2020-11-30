@@ -1,5 +1,6 @@
 import argparse
 
+from database.books import Books as Books_db
 import validate
 
 
@@ -20,3 +21,11 @@ def parse(args):
                              ", or in the format H:MM:SS. Ignored if adding "
                              "an ebook.")
     book_args = parser.parse_args(args)
+    book = validate.book(book_args.title, book_args.pages_read,
+                         book_args.total_pages, book_args.format)
+    add_book(book)
+
+
+def add_book(book):
+    db = Books_db()
+    db.add_book(book)

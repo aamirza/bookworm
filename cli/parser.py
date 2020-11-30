@@ -2,6 +2,7 @@ import argparse
 import datetime
 import sys
 
+from cli import book_parser
 from cli import goal_parser
 
 
@@ -12,8 +13,6 @@ PROGRAM_DESCRIPTION = "Have a book reading goal and keep track of your " \
 COMMANDS = (
     'add_goal',
     'add_book',
-    'add_ibook',
-    'add_audiobook',
     'update_goal',
     'update_book',
     'drop_book',
@@ -45,8 +44,7 @@ def main(args):
     if command == 'add_goal':
         goal_parser.parse(args[2:])
     elif command == 'add_book':
-        # TODO: Add argument for add book
-        pass
+        book_parser.parse(args[2:])
 
 
 if __name__ == "__main__":
