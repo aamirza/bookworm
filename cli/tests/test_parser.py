@@ -2,6 +2,7 @@ import argparse
 import datetime
 import unittest
 
+import goal_parser
 from cli import parser
 
 SUCCESS_CODE = 0
@@ -24,7 +25,7 @@ class TestParser(unittest.TestCase):
     def test_goalParser_showHelp(self):
         args = ['python3', 'add_goal', '-h']
         with self.assertRaises(SystemExit) as exit_obj:
-            parser.goal_parser(args[2:])
+            goal_parser.parse(args[2:])
         self.assertEqual(SUCCESS_CODE, exit_obj.exception.code)
 
     def test_goalParser_invalidGoal(self):

@@ -19,7 +19,7 @@ COMMANDS = (
     'drop_book',
 )
 
-# TODO: Add argument for add book
+
 # TODO: Add argument for update book
 
 def parse_command(args):
@@ -44,6 +44,9 @@ def main(args):
     command = parse_command([args[1]])
     if command == 'add_goal':
         goal_parser.parse(args[2:])
+    elif command == 'add_book':
+        # TODO: Add argument for add book
+        pass
 
 
 if __name__ == "__main__":

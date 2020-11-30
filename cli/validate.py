@@ -1,7 +1,10 @@
 import argparse
 import datetime
 
+from book import Book
 from lib.goal import Goal
+from lib.audiobook import AudiobookSeconds
+
 
 ERROR_MESSAGES = {
     "not_an_integer": "{0} is not a valid integer. Goal must be a number "
@@ -16,8 +19,18 @@ ERROR_MESSAGES = {
                       "past.",
     "start_date_after_end_date": "{0} is not after {1}. Start date must come "
                                  "before end date.",
+    "invalid_book_format": "{0} is not a valid format. Select from book (b), "
+                           "audiobook (ab), or ebook (eb)",
+    "invalid_page_format": "{0} is not a valid page format. It must be either"
+                           " an integer or in the format H:MM:SS for "
+                           "audiobooks",
 }
 
+ACCEPTABLE_FORMATS = [
+    "book", "b",
+    "audiobook", "ab",
+    "ebook", "eb"
+]
 
 def ArgTypeError(message, *args):
     return argparse.ArgumentTypeError(ERROR_MESSAGES[message].format(*args))
@@ -28,6 +41,10 @@ def get_num_of_args(cl_input):
         return 1
     return len(cl_input)
 
+
+"""
+Validation for goals
+"""
 
 def goal_number(goal_num):
     try:
@@ -60,3 +77,35 @@ def goal(goal_num, start_date, end_date):
     if start_date >= end_date:
         raise ArgTypeError("start_date_after_end_date", start_date, end_date)
     return Goal(num_books=goal_num, start_date=start_date, end_date=end_date)
+
+
+"""
+Validation for books
+"""
+
+
+def book_format(format):
+    if format not in ACCEPTABLE_FORMATS:
+        raise ArgTypeError("invalid_format", format)
+    short_forms = {
+        "b": "book",
+        "ab": "audiobook",
+        "eb": "ebook"
+    }
+    if format in short_forms:
+        format = short_forms[format]
+    return format
+
+
+def book_pages(pages):
+    if AudiobookSeconds.is_valid_time_format(pages):
+        pages = AudiobookSeconds(pages)
+    try:
+        pages = int(pages)
+    except ValueError:
+        raise ArgTypeError("invalid_page_format", pages)
+    return pages
+
+
+def book(title, pages_read, total_pages=100, format="book"):
+    pass
