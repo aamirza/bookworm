@@ -1,5 +1,5 @@
 from database.db import db
-from goal import Goal
+from lib.goal import Goal
 
 
 class NoGoalCreatedError(Exception):
@@ -37,7 +37,7 @@ class Goals(db):
         return goals
 
     def add_goal(self, goal: Goal):
-        assert type(goal) is Goal, "goal must be of type GoalTracker"
+        assert type(goal) is Goal, "goal must be of type Goal"
         self.inactivate_all_goals()
         self.c.execute("""
         INSERT INTO GOALS (book_goal, start_date, end_date) VALUES (?, ?, ?) 

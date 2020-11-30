@@ -1,7 +1,7 @@
 import argparse
 import datetime
 
-from goal import Goal
+from lib.goal import Goal
 
 ERROR_MESSAGES = {
     "not_an_integer": "{0} is not a valid integer. Goal must be a number "

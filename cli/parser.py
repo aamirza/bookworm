@@ -24,12 +24,13 @@ COMMANDS = (
 def goal_parser(args):
     # TODO: Add argument for add goal
     today = datetime.datetime.today().date()
-    year_from_now = datetime.datetime(today.year + 1, today.month, today.day)
+    year_from_now = datetime.datetime(today.year + 1, today.month, today.day) \
+        .date()
 
     parser = argparse.ArgumentParser(prog="Bookworm add_goal")
     parser.add_argument('number_of_books', type=validate.goal_number,
                         help="Number of books you want to read.")
-    parser.add_argument("end_date", default=year_from_now,
+    parser.add_argument("end_date", default=year_from_now, nargs="?",
                         type=validate.get_future_date,
                         help="When you want this goal to end. Default: Year "
                              "from now.")
@@ -61,6 +62,9 @@ def parse_command(args):
 
 
 def main(args):
+    if len(args) == 0:
+        # Print books available, or help.
+        pass
     command = parse_command([args[1]])
     if command == 'add_goal':
         db = goals_db.Goals()

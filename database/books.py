@@ -55,11 +55,6 @@ class Books(db):
     def _extract_title(self, book: Union[str, iBook]):
         return book if isinstance(book, str) else book.title
 
-    def get_all_tables(self) -> list:
-        tables = self.c.execute(
-            "SELECT name FROM sqlite_master WHERE type='table';")
-        return [table[0] for table in tables]
-
     def _add_book(self, title: str, total_pages: int, format: int, ) -> None:
         """Add a book to the database"""
         with self.conn:
@@ -111,6 +106,7 @@ class Books(db):
         gb.start_date 
         FROM books b JOIN goalbooks gb
         ON (id = book_id)
+        WHERE (gb.goal_id = (SELECT goal_id FROM goals WHERE active=1))
         ORDER BY b.id
         """)
         books = [self._book_constructor(*book) for book in self.c.fetchall()]

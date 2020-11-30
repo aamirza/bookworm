@@ -4,7 +4,7 @@ import unittest
 from freezegun import freeze_time
 
 import database.goals
-from goal import Goal
+from lib.goal import Goal
 
 
 class GoalDatabaseTests(unittest.TestCase):

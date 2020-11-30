@@ -19,10 +19,12 @@ class db:
     def __init__(self, db_name=shelf_file_location()):
         self.conn: sqlite3.Connection = sqlite3.connect(db_name)
         self.c: sqlite3.Cursor = self.conn.cursor()
-        self.create_tables()
+        with self.conn:
+            self.create_tables()
 
     def __del__(self):
         self.c.close()
+        self.conn.commit()
         self.conn.close()
 
     def create_tables(self) -> None:
@@ -98,3 +100,8 @@ class db:
         WHERE active = 1
         """)
         return len(self.c.fetchall()) == 1
+
+    def get_all_tables(self) -> list:
+        tables = self.c.execute(
+            "SELECT name FROM sqlite_master WHERE type='table';")
+        return [table[0] for table in tables]
