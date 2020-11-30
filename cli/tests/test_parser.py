@@ -2,6 +2,7 @@ import argparse
 import datetime
 import unittest
 
+import book_parser
 import goal_parser
 from cli import parser
 
@@ -32,6 +33,19 @@ class TestParser(unittest.TestCase):
         args = ['python3', 'add_goal', '50', '2020-05-05']
         with self.assertRaises(SystemExit) as exit_obj:
             parser.main(args)
+        self.assertEqual(INVALID_INPUT_CODE, exit_obj.exception.code)
+
+    def test_bookParser_invalidFormat(self):
+        args = ['python3', 'add_book', '-f', 'hbook', 'valid title', '221',
+                '500']
+        with self.assertRaises(SystemExit) as exit_obj:
+            book_parser.parse(args[2:])
+        self.assertEqual(INVALID_INPUT_CODE, exit_obj.exception.code)
+
+    def test_bookParser_invalidPages(self):
+        args = ['python3', 'add_book', 'valid title', 'a221', '500']
+        with self.assertRaises(SystemExit) as exit_obj:
+            book_parser.parse(args[2:])
         self.assertEqual(INVALID_INPUT_CODE, exit_obj.exception.code)
 
 

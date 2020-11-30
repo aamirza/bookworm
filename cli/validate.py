@@ -1,7 +1,7 @@
 import argparse
 import datetime
 
-from book import Book
+from lib.book import Book
 from lib.goal import Goal
 from lib.audiobook import AudiobookSeconds
 
@@ -23,7 +23,7 @@ ERROR_MESSAGES = {
                            "audiobook (ab), or ebook (eb)",
     "invalid_page_format": "{0} is not a valid page format. It must be either"
                            " an integer or in the format H:MM:SS for "
-                           "audiobooks",
+                           "audio books",
 }
 
 ACCEPTABLE_FORMATS = [
@@ -86,7 +86,7 @@ Validation for books
 
 def book_format(format):
     if format not in ACCEPTABLE_FORMATS:
-        raise ArgTypeError("invalid_format", format)
+        raise ArgTypeError("invalid_book_format", format)
     short_forms = {
         "b": "book",
         "ab": "audiobook",
