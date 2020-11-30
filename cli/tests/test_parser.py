@@ -1,8 +1,11 @@
 import argparse
+import datetime
 import unittest
 
 from cli import parser
 
+SUCCESS_CODE = 0
+INVALID_INPUT_CODE = 2
 
 class TestParser(unittest.TestCase):
 
@@ -16,16 +19,22 @@ class TestParser(unittest.TestCase):
         args = ['python3', 'add_movie']
         with self.assertRaises(SystemExit) as exit_obj:
             parser.parse_command(args[1:])
-        self.assertEqual(2, exit_obj.exception.code)
+        self.assertEqual(INVALID_INPUT_CODE, exit_obj.exception.code)
 
     def test_goalParser_showHelp(self):
         args = ['python3', 'add_goal', '-h']
         with self.assertRaises(SystemExit) as exit_obj:
             parser.goal_parser(args[2:])
-        self.assertEqual(0, exit_obj.exception.code)
+        self.assertEqual(SUCCESS_CODE, exit_obj.exception.code)
 
-    def test_goalParser_validGoal(self):
-        pass
+    def test_goalParser_invalidGoal(self):
+        args = ['python3', 'add_goal', '50', '2020-05-05']
+        with self.assertRaises(SystemExit) as exit_obj:
+            parser.main(args)
+        self.assertEqual(INVALID_INPUT_CODE, exit_obj.exception.code)
+
+
+
 
     # A test for when you have a goal in the database, but no books
 

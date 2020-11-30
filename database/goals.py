@@ -7,8 +7,11 @@ class NoGoalCreatedError(Exception):
 
 
 class Goals(db):
-    def __init__(self, db_name="shelf.py"):
-        super().__init__(db_name)
+    def __init__(self, db_name=""):
+        if db_name:
+            super().__init__(db_name)
+        else:
+            super().__init__()
 
     def get_current_goal(self):
         self.c.execute("""

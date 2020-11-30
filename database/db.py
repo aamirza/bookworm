@@ -1,10 +1,21 @@
 import datetime
 import sqlite3
 import time
+from pathlib import Path
+
+
+def shelf_file_location():
+    current_directory = Path.resolve(__file__).parent
+    bookworm_directory = current_directory
+    while bookworm_directory.name not in ("bookworm", ""):
+        bookworm_directory = bookworm_directory.parent
+    if bookworm_directory.name == "":
+        raise FileNotFoundError("db is not located in the proper directory.")
+    return str(bookworm_directory / "shelf.db")
 
 
 class db:
-    def __init__(self, db_name="shelf.db"):
+    def __init__(self, db_name=shelf_file_location()):
         self.conn: sqlite3.Connection = sqlite3.connect(db_name)
         self.c: sqlite3.Cursor = self.conn.cursor()
         self.create_tables()

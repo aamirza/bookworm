@@ -11,6 +11,7 @@ class Goal:
         self._num_books = num_books
         self._start_date = self._convert_to_date(start_date)
         self._end_date = self._convert_to_date(end_date)
+        self._start_date_before_end_date()
 
     def __eq__(self, other):
         if isinstance(other, Goal):
@@ -20,6 +21,10 @@ class Goal:
             if equal_end_date and equal_start_date and equal_num_books:
                 return True
         return False
+
+    def _start_date_before_end_date(self):
+        if self.start_date >= self.end_date:
+            raise ValueError("Start date needs to be before end date")
 
     @staticmethod
     def _convert_to_date(value) -> datetime.date:

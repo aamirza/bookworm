@@ -31,8 +31,11 @@ class BookNotFoundError(Exception):
 
 
 class Books(db):
-    def __init__(self, db_name="shelf.db") -> None:
-        super().__init__(db_name)
+    def __init__(self, db_name="") -> None:
+        if db_name:
+            super().__init__(db_name)
+        else:
+            super().__init__()
 
     def _book_constructor(self,
                           format: Union[Format, int],
