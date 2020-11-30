@@ -1,10 +1,10 @@
 import argparse
 import datetime
 
+from lib.ebook import Ebook
 from lib.book import Book
 from lib.goal import Goal
-from lib.audiobook import AudiobookSeconds
-
+from lib.audiobook import AudiobookSeconds, Audiobook
 
 ERROR_MESSAGES = {
     "not_an_integer": "{0} is not a valid integer. Goal must be a number "
@@ -24,6 +24,8 @@ ERROR_MESSAGES = {
     "invalid_page_format": "{0} is not a valid page format. It must be either"
                            " an integer or in the format H:MM:SS for "
                            "audio books",
+    "pages_read_more_than_total_pages": "Pages read cannot be more than total "
+                                        "pages."
 }
 
 ACCEPTABLE_FORMATS = [
@@ -107,5 +109,13 @@ def book_pages(pages):
     return pages
 
 
-def book(title, pages_read, total_pages=100, format="book"):
-    pass
+def book(title, pages_read, total_pages=100, book_format="book"):
+    if total_pages < pages_read:
+        raise ArgTypeError("pages_read_more_than_total_pages")
+    if book_format == "ebook":
+        new_book = Ebook(title, pages_read)
+    elif book_format == "audiobook":
+        new_book = Audiobook(title, pages_read, total_pages)
+    else:
+        new_book = Book(title, pages_read, total_pages)
+    return new_book

@@ -31,4 +31,5 @@ def add_goal(goal):
     if not db.active_goal_exists():
         db.add_goal(goal)
     else:
+        # TODO: Make it so you can add multiple goals
         print("You already have an active goal.")
