@@ -1,11 +1,9 @@
 import argparse
 import datetime
 import sys
-from enum import Enum
 
 from cli import validate
 import database.goals as goals_db
-from goal import Goal
 
 
 PROGRAM_NAME = "Bookworm"
@@ -71,4 +69,4 @@ def main(args):
 
 
 if __name__ == "__main__":
-    main()
+    main(sys.argv)

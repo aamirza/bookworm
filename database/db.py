@@ -1,11 +1,12 @@
 import datetime
+import os
 import sqlite3
 import time
 from pathlib import Path
 
 
 def shelf_file_location():
-    current_directory = Path.resolve(__file__).parent
+    current_directory = Path(os.path.dirname(os.path.abspath(__file__)))
     bookworm_directory = current_directory
     while bookworm_directory.name not in ("bookworm", ""):
         bookworm_directory = bookworm_directory.parent
