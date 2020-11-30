@@ -10,21 +10,6 @@ from lib.book import Book
 from lib.audiobook import Audiobook
 from lib.ebook import Ebook
 
-"""
-What will the database output?
----> List of all books.
----> List of books that are within goal date.
----> List of complete/incomplete books.
----> List of all books with index
-
-How will it relate to the goal tracker?
----> The goal tracker will dump its goal here
----> The goal tracker will get list of books from here
----> All other calculations are local
-"""
-
-
-# Remember that validation is left to PromptHabit, so don't worry about it here
 
 class BookNotFoundError(Exception):
     pass

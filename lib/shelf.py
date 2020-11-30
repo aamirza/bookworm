@@ -2,7 +2,7 @@
 import collections
 from typing import List
 
-from ibook import iBook
+from lib.ibook import iBook
 
 
 class Shelf(collections.abc.Sequence):
@@ -27,7 +27,7 @@ class Shelf(collections.abc.Sequence):
 
     def add_book(self, book: iBook):
         assert isinstance(book, iBook), "The book you are adding should be" \
-                                        "of type iBook"
+                                        " of type iBook"
         self.books.append(book)
 
     @property

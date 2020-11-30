@@ -1,21 +1,23 @@
 import datetime
 from typing import Union
 
-from book import Book
-from goal import Goal
-from ibook import iBook
-from shelf import Shelf
+from lib.book import Book
+from lib.goal import Goal
+from lib.ibook import iBook
+from lib.shelf import Shelf
 
 # TODO: Make this database friendly
 # TODO: Fix type hints
 
 Date = Union[str, datetime.datetime, datetime.date, None]
 today = datetime.datetime.today().date()
+year_from_now = datetime.datetime(today.year + 1, today.month,
+                                  today.day).date()
 
 
 class GoalTracker:
     def __init__(self, book_goal: int = 0, start_date: Date = today,
-                 end_date: Date = today):
+                 end_date: Date = year_from_now):
         # TODO: Initialize with goal_id instead.
         # Only one goal at a time. Old goals get archived.
         # Just get the last goal on the list.

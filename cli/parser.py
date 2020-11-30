@@ -4,7 +4,7 @@ import sys
 
 from cli import book_parser
 from cli import goal_parser
-
+from lib.goal_tracker import GoalTracker
 
 PROGRAM_NAME = "Bookworm"
 PROGRAM_DESCRIPTION = "Have a book reading goal and keep track of your " \
@@ -36,9 +36,13 @@ def parse_command(args):
     return parser.parse_args(args).Command[0]
 
 
+def get_reading_recommendations():
+    tracker = GoalTracker()
+
+
 def main(args):
     if len(args) == 0:
-        # Print books available, or help.
+        # TODO: Print books available, or help.
         pass
     command = parse_command([args[1]])
     if command == 'add_goal':
