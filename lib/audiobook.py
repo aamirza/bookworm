@@ -77,6 +77,9 @@ class AudiobookSeconds:
         else:
             return self.seconds <= other
 
+    def __round__(self):
+        return AudiobookSeconds(round(self.seconds))
+
     @staticmethod
     def is_valid_time_format(string):
         valid_time_format = r'^(\d{1,2}:)?([0-5]\d):?([0-5]\d)$'

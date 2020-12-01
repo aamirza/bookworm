@@ -7,6 +7,7 @@ from cli import goal_parser
 from lib.goal_tracker import GoalTracker
 from database.goals import Goals
 from lib.shelf import Shelf
+from lib.ibook import Format
 
 PROGRAM_NAME = "Bookworm"
 PROGRAM_DESCRIPTION = "Have a book reading goal and keep track of your " \
@@ -43,13 +44,23 @@ def get_reading_recommendations():
     books_db = Books()
     tracker = GoalTracker(goals_db.get_current_goal(),
                           Shelf(books_db.get_all_books()))
-    print(f"\nYou are {tracker.num_days} days ahead")
+    pace_message = f"\nYou are {tracker.days_ahead} day"
+    if tracker.days_ahead != 1: pace_message += "s"
+    pace_message += " ahead!" if tracker.days_ahead > 0 else " behind!"
+    pace_message += "\n"
+    print(pace_message)
+    for index, book in enumerate(books_db.get_all_books()):
+        recommendation = str(tracker.minimum_pages_needed(book))
+        print(
+            f"{index + 1}. {book.title} – You need to go from "
+            f"{str(book.pages_read)} to {recommendation} today.")
 
 
 def main(args):
-    if len(args) == 0:
+    if len(args) == 1:
         # TODO: Print books available, or help.
-        pass
+        get_reading_recommendations()
+        raise SystemExit
     command = parse_command([args[1]])
     if command == 'add_goal':
         goal_parser.parse(args[2:])

@@ -2,8 +2,9 @@ import datetime
 from typing import Union
 
 from lib.book import Book
+from lib.audiobook import AudiobookSeconds
 from lib.goal import Goal
-from lib.ibook import iBook
+from lib.ibook import iBook, Format
 from lib.shelf import Shelf
 
 # TODO: Make this database friendly
@@ -71,7 +72,16 @@ class GoalTracker:
         elif num_books_to_read < 1:
             minimum_pages_to_read += book.total_pages * num_books_to_read
 
+        if book.format == Format.AUDIOBOOK:
+            minimum_pages_to_read = AudiobookSeconds(
+                int(minimum_pages_to_read))
         return round(minimum_pages_to_read)
+
+    def minimum_page_recommendations(self, *, force_next_day: bool = False):
+        for index, book in enumerate(self.shelf):
+            recommendation = str(self.minimum_pages_needed(book))
+            yield f"{index + 1}. {book.title} – You need to go from " \
+                  f"{str(book.pages_read)} to {recommendation} today."
 
     @property
     def days_successfully_complete(self) -> float:
