@@ -16,16 +16,9 @@ year_from_now = datetime.datetime(today.year + 1, today.month,
 
 
 class GoalTracker:
-    def __init__(self, book_goal: int = 0, start_date: Date = today,
-                 end_date: Date = year_from_now):
-        # TODO: Initialize with goal_id instead.
-        # Only one goal at a time. Old goals get archived.
-        # Just get the last goal on the list.
-        self.goal = Goal(book_goal, start_date, end_date)
-        self.shelf = Shelf()
-
-        # to track whether the database should be updated
-        self._update_database = True
+    def __init__(self, goal: Goal, shelf: Shelf):
+        self.goal = goal
+        self.shelf = shelf
 
     def __iadd__(self, value: iBook):
         self.shelf.add_book(value)
@@ -79,3 +72,18 @@ class GoalTracker:
             minimum_pages_to_read += book.total_pages * num_books_to_read
 
         return round(minimum_pages_to_read)
+
+    @property
+    def days_successfully_complete(self) -> float:
+        """
+        How much of the goal has been completed in terms (units)
+        of days.
+        """
+        return (self.shelf.num_books_read_and_partially_read
+                / self.goal.ideal_books_per_day)
+
+    @property
+    def days_ahead(self):
+        days_ahead = (self.days_successfully_complete -
+                      self.goal.days_since_start)
+        return round(days_ahead)

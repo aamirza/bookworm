@@ -1,10 +1,12 @@
 import argparse
-import datetime
 import sys
 
+from database.books import Books
 from cli import book_parser
 from cli import goal_parser
 from lib.goal_tracker import GoalTracker
+from database.goals import Goals
+from lib.shelf import Shelf
 
 PROGRAM_NAME = "Bookworm"
 PROGRAM_DESCRIPTION = "Have a book reading goal and keep track of your " \
@@ -37,7 +39,11 @@ def parse_command(args):
 
 
 def get_reading_recommendations():
-    tracker = GoalTracker()
+    goals_db = Goals()
+    books_db = Books()
+    tracker = GoalTracker(goals_db.get_current_goal(),
+                          Shelf(books_db.get_all_books()))
+    print(f"\nYou are {tracker.num_days} days ahead")
 
 
 def main(args):

@@ -6,6 +6,7 @@ import goal_tracker
 from goal import Goal
 from lib import book, audiobook
 from book import Book
+from lib.shelf import Shelf
 
 """
 Test naming convention:
@@ -20,7 +21,11 @@ test_nameOfTestedFeature_expectedInput/testState_expectedBehaviour
 
 class TestGoalTracker(TestCase):
     def setUp(self) -> None:
-        self.tracker = goal_tracker.GoalTracker()
+        today = datetime.datetime.today()
+        year_from_now = today + datetime.timedelta(days=365)
+        goal = Goal(50, today, year_from_now)
+        shelf = Shelf()
+        self.tracker = goal_tracker.GoalTracker(goal, shelf)
 
     def test_convertToDate_invalidType_raisesError(self):
         with self.assertRaisesRegex(AssertionError, "Date must be a "):
