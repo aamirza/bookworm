@@ -44,16 +44,11 @@ def get_reading_recommendations():
     books_db = Books()
     tracker = GoalTracker(goals_db.get_current_goal(),
                           Shelf(books_db.get_all_books()))
-    pace_message = f"\nYou are {tracker.days_ahead} day"
-    if tracker.days_ahead != 1: pace_message += "s"
-    pace_message += " ahead!" if tracker.days_ahead > 0 else " behind!"
-    pace_message += "\n"
-    print(pace_message)
-    for index, book in enumerate(books_db.get_all_books()):
-        recommendation = str(tracker.minimum_pages_needed(book))
-        print(
-            f"{index + 1}. {book.title} – You need to go from "
-            f"{str(book.pages_read)} to {recommendation} today.")
+    print(f"\n{tracker.days_ahead_message()} on your goal to "
+          f"{tracker.goal.message().lower()}.\n")
+    for recommendation in tracker.minimum_page_recommendations():
+        print(recommendation)
+    print("")
 
 
 def main(args):

@@ -110,3 +110,6 @@ class Goal:
     @property
     def min_ideal_books_complete(self):
         return self.ideal_books_per_day * self.days_since_start
+
+    def message(self):
+        return f"Read {self.num_books} books by {str(self.end_date)}"
