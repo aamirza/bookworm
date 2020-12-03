@@ -44,8 +44,12 @@ def get_reading_recommendations():
     books_db = Books()
     tracker = GoalTracker(goals_db.get_current_goal(),
                           Shelf(books_db.get_all_books()))
-    print(f"\n{tracker.days_ahead_message()} on your goal to "
-          f"{tracker.goal.message().lower()}.\n")
+
+    opening_message = tracker.days_ahead_message()  # "You are 5 days ahead"
+    opening_message += "on your goal to "
+    opening_message += tracker.goal.message().lower()  # "read 50 books by
+    # 2021"
+    print(opening_message)
     for recommendation in tracker.minimum_page_recommendations():
         print(recommendation)
     print("")
