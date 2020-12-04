@@ -42,7 +42,7 @@ def main(args):
         if command in ('add_goal', '-ag'):
             goal_parser.parse(args[2:])
         elif command in ('add_book', '-ab'):
-            book_parser.parse(args[2:])
+            book_parser.add_book(args[2:])
         elif command in ('update_book', '-ub'):
             # TODO: Command for update book
             pass

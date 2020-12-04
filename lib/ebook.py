@@ -1,5 +1,6 @@
 from __future__ import annotations
 import datetime
+from typing import Optional
 
 from lib.ibook import iBook, Format
 
@@ -14,9 +15,11 @@ class Ebook(iBook):
     def __init__(self,
                  title: str,
                  pages_read: Percent,
-                 start_date: datetime.datetime = datetime.datetime.today()
+                 start_date: datetime.datetime = datetime.datetime.today(),
+                 id_num: Optional[int] = 0
                  ) -> None:
-        super().__init__(Format.EBOOK, title, pages_read, 100, start_date)
+        super().__init__(Format.EBOOK, title, pages_read, 100, start_date,
+                         id_num)
 
     @iBook.total_pages.getter
     def total_pages(self) -> Percent:

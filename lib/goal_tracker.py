@@ -81,7 +81,7 @@ class GoalTracker:
         for index, book in enumerate(self.shelf):
             recommendation = str(self.minimum_pages_needed(book))
             percent = "%" if book.format == Format.EBOOK else ""
-            yield f"{index + 1}. {book.title} – You need to read from " \
+            yield f"* {book.title} – You need to read from " \
                   f"{str(book.pages_read)}{percent} " \
                   f"to {recommendation}{percent} today."
 

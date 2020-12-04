@@ -28,14 +28,15 @@ class Books(db):
                           pages_read: int,
                           total_pages: int,
                           start_date: Optional[
-                              Union[datetime.datetime, int]] = None):
+                              Union[datetime.datetime, int]] = None,
+                          id: Optional[int] = 0):
         book_format = Format(format)
         if book_format == Format.BOOK:
-            return Book(title, pages_read, total_pages, start_date)
+            return Book(title, pages_read, total_pages, start_date, id=id)
         elif book_format == Format.EBOOK:
-            return Ebook(title, pages_read, start_date)
+            return Ebook(title, pages_read, start_date, id=id)
         elif book_format == Format.AUDIOBOOK:
-            return Audiobook(title, pages_read, total_pages, start_date)
+            return Audiobook(title, pages_read, total_pages, start_date, id=id)
 
     def _extract_title(self, book: Union[str, iBook]):
         return book if isinstance(book, str) else book.title
@@ -84,11 +85,23 @@ class Books(db):
         book = self.c.fetchone()
         return None if book is None else self._book_constructor(*book)
 
+    def get_book_by_id(self, id):
+        self.c.execute("""
+        SELECT b.format_id, b.title, gb.pages_read, b.total_pages, 
+        gb.start_date, b.id
+        FROM books b JOIN goalbooks gb
+        ON (id = book_id)
+        WHERE (b.id = ? 
+               AND gb.goal_id = (SELECT goal_id FROM goals WHERE active=1))
+        """)
+        book = self.c.fetchone()
+        return None if book is None else self._book_constructor(*book)
+
     def get_all_books(self):
         """"Get all books from the database"""
         self.c.execute("""
         SELECT b.format_id, b.title, gb.pages_read, b.total_pages, 
-        gb.start_date 
+        gb.start_date, b.id 
         FROM books b JOIN goalbooks gb
         ON (id = book_id)
         WHERE (gb.goal_id = (SELECT goal_id FROM goals WHERE active=1))
@@ -121,7 +134,7 @@ class Books(db):
         the book object itself.
         """
         if not self.has_book(book):
-            raise BookNotFoundError('The book you are trying to update ' \
+            raise BookNotFoundError('The book you are trying to update '
                                     'was not found in the database.')
         # If book title is passed, get the book object
         if isinstance(book, str):

@@ -4,7 +4,7 @@ from database.books import Books as Books_db
 from cli import validate
 
 
-def parse(args):
+def add_book(args):
     parser = argparse.ArgumentParser("Bookworm add book")
     parser.add_argument("-f", "-format", default="book", dest="format",
                         type=validate.book_format,
@@ -23,9 +23,14 @@ def parse(args):
     book_args = parser.parse_args(args)
     book = validate.book(book_args.title, book_args.pages_read,
                          book_args.total_pages, book_args.format)
-    add_book(book)
+    add_book_to_database(book)
 
 
-def add_book(book):
+def add_book_to_database(book):
     db = Books_db()
     db.add_book(book)
+
+
+def update_book(args):
+    parser = argparse.ArgumentParser("Bookworm update book")
+    # It takes title or ID.

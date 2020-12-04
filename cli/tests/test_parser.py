@@ -39,13 +39,13 @@ class TestParser(unittest.TestCase):
         args = ['python3', 'add_book', '-f', 'hbook', 'valid title', '221',
                 '500']
         with self.assertRaises(SystemExit) as exit_obj:
-            book_parser.parse(args[2:])
+            book_parser.add_book(args[2:])
         self.assertEqual(INVALID_INPUT_CODE, exit_obj.exception.code)
 
     def test_bookParser_invalidPages(self):
         args = ['python3', 'add_book', 'valid title', 'a221', '500']
         with self.assertRaises(SystemExit) as exit_obj:
-            book_parser.parse(args[2:])
+            book_parser.add_book(args[2:])
         self.assertEqual(INVALID_INPUT_CODE, exit_obj.exception.code)
 
 
