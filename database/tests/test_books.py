@@ -109,6 +109,14 @@ class TestBookDatabase(unittest.TestCase):
         self.shelf.remove_book(book)
         self.assertFalse(self.shelf.has_book(book))
 
+    def test_getBookById(self):
+        book = Audiobook("A relaxing book", "2:38:41", "5:15:22")
+        self.shelf.add_book(book)
+        self.assertEqual(book, self.shelf.get_book_by_id(1))
+
+    def test_getBookById_invalidId_returnsNone(self):
+        self.assertIsNone(self.shelf.get_book_by_id(2))
+
 
 if __name__ == '__main__':
     unittest.main()

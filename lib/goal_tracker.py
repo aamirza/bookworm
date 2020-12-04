@@ -82,7 +82,7 @@ class GoalTracker:
             recommendation = str(self.minimum_pages_needed(book))
             # Add a percentage sign if ebook
             if book.format == Format.EBOOK: recommendation += "%"
-            yield f"* {book.title} – You need to read from " \
+            yield f"{book.id}. {book.title} – You need to read from " \
                   f"{str(book.pages_read)} to {recommendation} today."
 
     def days_ahead_message(self):

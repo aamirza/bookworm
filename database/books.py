@@ -95,7 +95,7 @@ class Books(db):
         ON (id = book_id)
         WHERE (b.id = ? 
                AND gb.goal_id = (SELECT goal_id FROM goals WHERE active=1))
-        """)
+        """, (id,))
         book = self.c.fetchone()
         return None if book is None else self._book_constructor(*book)
 
