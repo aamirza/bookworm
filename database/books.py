@@ -29,14 +29,16 @@ class Books(db):
                           total_pages: int,
                           start_date: Optional[
                               Union[datetime.datetime, int]] = None,
-                          id: Optional[int] = 0):
+                          id_num: Optional[int] = 0):
         book_format = Format(format)
         if book_format == Format.BOOK:
-            return Book(title, pages_read, total_pages, start_date, id=id)
+            return Book(title, pages_read, total_pages, start_date,
+                        id_num=id_num)
         elif book_format == Format.EBOOK:
-            return Ebook(title, pages_read, start_date, id=id)
+            return Ebook(title, pages_read, start_date, id_num=id_num)
         elif book_format == Format.AUDIOBOOK:
-            return Audiobook(title, pages_read, total_pages, start_date, id=id)
+            return Audiobook(title, pages_read, total_pages, start_date,
+                             id_num=id_num)
 
     def _extract_title(self, book: Union[str, iBook]):
         return book if isinstance(book, str) else book.title

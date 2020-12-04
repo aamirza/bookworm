@@ -17,7 +17,7 @@ class iBook(ABC):
                  pages_read: int = 0,
                  total_pages: int = 0,
                  start_date: datetime.datetime = datetime.datetime.today(),
-                 id=0
+                 id_num: int = 0
                  ) -> None:
         assert total_pages >= pages_read, \
             "Total pages cannot be less than pages read."
@@ -27,7 +27,7 @@ class iBook(ABC):
         self._pages_read = pages_read
         self._total_pages = total_pages
         self.start_date = start_date
-        self.id = id
+        self.id = id_num
 
     def __str__(self) -> str:
         return self.title
