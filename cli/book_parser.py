@@ -33,4 +33,22 @@ def add_book_to_database(book):
 
 def update_book(args):
     parser = argparse.ArgumentParser("Bookworm update book")
-    # It takes title or ID.
+    parser.add_argument("id", default=0, type=int,
+                        help="The ID of the book you're tryng to update. The"
+                             " number is beside the book title.")
+    parser.add_argument("-title", type=str,
+                        help="Title of the book, optional value for when you "
+                             "do not want to upadte by ID.")
+    parser.add_argument("pages_read", type=validate.book_pages,
+                        help="How many pages of the book you've read.")
+    book_args = parser.parse_args(args)
+
+    books_db = Books_db()
+    selected_book = books_db.get_book_by_id(book_args.id)
+
+    if selected_book is not None:
+        selected_book = validate.book(selected_book.title,
+                                      book_args.pages_read,
+                                      selected_book.total_pages,
+                                      selected_book.format)
+        books_db.update_pages_read(selected_book, book_args.pages_read)

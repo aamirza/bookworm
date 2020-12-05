@@ -80,10 +80,13 @@ class GoalTracker:
     def minimum_page_recommendations(self, *, force_next_day: bool = False):
         for index, book in enumerate(self.shelf):
             recommendation = str(self.minimum_pages_needed(book))
-            # Add a percentage sign if ebook
-            if book.format == Format.EBOOK: recommendation += "%"
+            pages_read = str(book.pages_read)
+            if book.format == Format.EBOOK:
+                # Add a percentage sign if ebook
+                recommendation += "%"
+                pages_read += "%"
             yield f"{book.id}. {book.title} – You need to read from " \
-                  f"{str(book.pages_read)} to {recommendation} today."
+                  f"{pages_read} to {recommendation} today."
 
     def days_ahead_message(self):
         pace_message = f"You are {self.days_ahead} day"

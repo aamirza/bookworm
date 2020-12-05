@@ -25,7 +25,9 @@ ERROR_MESSAGES = {
                            " an integer or in the format H:MM:SS for "
                            "audio books",
     "pages_read_more_than_total_pages": "Pages read cannot be more than total "
-                                        "pages."
+                                        "pages.",
+    "negative_pages": "Pages read and total pages can only be a positive "
+                      "integers."
 }
 
 ACCEPTABLE_FORMATS = [
@@ -112,6 +114,8 @@ def book_pages(pages):
 def book(title, pages_read, total_pages=100, book_format="book"):
     if total_pages < pages_read:
         raise ArgTypeError("pages_read_more_than_total_pages")
+    elif pages_read < 0 or total_pages < 0:
+        raise ArgTypeError("negative_pages")
     if book_format == "ebook":
         new_book = Ebook(title, pages_read)
     elif book_format == "audiobook":
