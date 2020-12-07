@@ -7,8 +7,6 @@ from lib.goal import Goal
 from lib.ibook import iBook, Format
 from lib.shelf import Shelf
 
-# TODO: Make this database friendly
-# TODO: Fix type hints
 
 Date = Union[str, datetime.datetime, datetime.date, None]
 today = datetime.datetime.today().date()

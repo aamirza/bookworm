@@ -7,7 +7,6 @@ Test naming convention:
 test_nameOfTestedFeature_expectedInput/testState_expectedBehaviour
 """
 
-# TODO: Write these tests
 """
 * Create a SQL database to store books
 * Be able to create, read, update and delete books.

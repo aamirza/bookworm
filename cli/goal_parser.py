@@ -47,11 +47,15 @@ def update_goal(args):
     parser.add_argument("-ed", "-end_date", dest="end_date",
                         type=validate.get_future_date,
                         default=active_goal.end_date,
-                        help="When you want this goal to end.")
+                        help="By what date you want to complete this goal.")
+
+    if len(args) == 0:
+        # Show help if no arguments passed
+        args.append('-h')
     goal = parser.parse_args(args)
+
     new_goal = validate.goal(goal.num_books, active_goal.start_date,
                              goal.end_date)
-
     if new_goal.num_books != active_goal.num_books:
         db.update_active_goal_num_books(new_goal.num_books)
     if new_goal.end_date != active_goal.end_date:

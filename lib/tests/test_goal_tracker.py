@@ -13,7 +13,6 @@ Test naming convention:
 test_nameOfTestedFeature_expectedInput/testState_expectedBehaviour
 """
 
-# TODO: Write these tests
 """
 
 """

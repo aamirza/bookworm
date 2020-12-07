@@ -171,6 +171,7 @@ class Books(db):
             raise BookNotFoundError(f"The book {book} was not found on your "
                                     f"shelf")
         title = self._extract_title(book)
+        # TODO: Make the book be hidden instead of permanently deleted.
         self.c.execute("""
         DELETE FROM books WHERE title = ?
         """, (title,))

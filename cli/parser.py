@@ -26,13 +26,11 @@ def parse_command(args):
         # No arguments passed
         # By default, recommendations should be shown
         pass
-    # TODO: Integrate with lower classes
     parser.add_argument("Command", choices=COMMANDS, type=str,
                         metavar="command", nargs=1, action='store',
-                        help="Choose one of the following: add_goal (-ag), "
-                             "add_book "
-                             "(ab), update_goal (ug), update_book (ub or up), "
-                             "or drop_book (db).")
+                        help="Choose from one of the following: add_goal (ag),"
+                             " add_book (ab), update_goal (ug), update_book "
+                             "(ub or up), or drop_book (db).")
     return parser.parse_args(args).Command[0]
 
 
