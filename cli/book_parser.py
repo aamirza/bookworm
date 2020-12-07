@@ -36,11 +36,8 @@ def update_book(args):
     parser.add_argument("id", default=0, type=int,
                         help="The ID of the book you're tryng to update. The"
                              " number is beside the book title.")
-    parser.add_argument("-title", type=str,
-                        help="Title of the book, optional value for when you "
-                             "do not want to upadte by ID.")
     parser.add_argument("pages_read", type=validate.book_pages,
-                        help="How many pages of the book you've read.")
+                        help="How many pages you have read of the book.")
     book_args = parser.parse_args(args)
 
     books_db = Books_db()
