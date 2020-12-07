@@ -41,11 +41,13 @@ def main(args):
         try:
             command = parse_command([args[1]])
             if command in ('add_goal', 'ag'):
-                goal_parser.parse(args[2:])
+                goal_parser.add_goal(args[2:])
             elif command in ('add_book', 'ab'):
                 book_parser.add_book(args[2:])
             elif command in ('update_book', 'ub', 'up'):
                 book_parser.update_book(args[2:])
+            elif command in ('update_goal', 'ug'):
+                goal_parser.update_goal(args[2:])
         except argparse.ArgumentTypeError as err:
             print(f"Error: {err}")
             raise SystemExit

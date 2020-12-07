@@ -13,7 +13,7 @@ class Goals(db):
         else:
             super().__init__()
 
-    def get_current_goal(self):
+    def get_current_goal(self) -> Goal:
         self.c.execute("""
         SELECT book_goal, start_date, end_date
         FROM goals
@@ -46,6 +46,20 @@ class Goals(db):
             self._date_to_unix_timestamp(goal.start_date),
             self._date_to_unix_timestamp(goal.end_date)
         ))
+
+    def update_active_goal_num_books(self, num_books):
+        self.c.execute("""
+        UPDATE GOALS 
+        SET book_goal = ?
+        WHERE active = 1
+        """, (num_books,))
+
+    def update_active_goal_end_date(self, end_date):
+        self.c.execute("""
+        UPDATE GOALS
+        SET end_date = ?
+        WHERE active = 1
+        """, (self._date_to_unix_timestamp(end_date),))
 
     def inactivate_all_goals(self):
         self.c.execute("""
