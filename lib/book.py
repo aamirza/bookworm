@@ -1,7 +1,8 @@
 import datetime
 from typing import Optional
 
-from lib.ibook import iBook, Format
+from lib.ibook import iBook
+from format import Format
 
 
 class Book(iBook):

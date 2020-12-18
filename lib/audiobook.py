@@ -2,7 +2,8 @@ import datetime
 import re
 from typing import Union, Optional
 
-from lib.ibook import iBook, Format
+from lib.ibook import iBook
+from format import Format
 
 
 class TimeFormatError(Exception):

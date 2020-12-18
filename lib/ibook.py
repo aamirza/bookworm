@@ -1,13 +1,8 @@
 from __future__ import annotations
-from abc import ABC, abstractmethod
+from abc import ABC
 import datetime
-from enum import Enum
 
-
-class Format(Enum):
-    BOOK = 0
-    EBOOK = 1
-    AUDIOBOOK = 2
+from format import Format
 
 
 class iBook(ABC):

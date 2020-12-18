@@ -2,7 +2,8 @@ from __future__ import annotations
 import datetime
 from typing import Optional
 
-from lib.ibook import iBook, Format
+from lib.ibook import iBook
+from format import Format
 
 
 class InvalidPercentageError(Exception):
