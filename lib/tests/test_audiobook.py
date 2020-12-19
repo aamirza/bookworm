@@ -1,6 +1,7 @@
 import unittest
 
-from audiobook import Audiobook, TimeFormatError
+from audiobook import Audiobook
+from audiobookseconds import TimeFormatError
 
 """
 Makes tests for:

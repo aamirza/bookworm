@@ -2,10 +2,6 @@ from unittest import TestCase
 
 from cli import PromptBook
 
-"""
-Test naming convention:
-test_nameOfTestedFeature_expectedInput/testState_expectedBehaviour
-"""
 
 """
 * Create a SQL database to store books

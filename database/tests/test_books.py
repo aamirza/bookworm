@@ -3,7 +3,8 @@ import datetime
 from freezegun import freeze_time
 import unittest
 
-from audiobook import Audiobook, AudiobookSeconds
+from audiobook import Audiobook
+from audiobookseconds import AudiobookSeconds
 from database.goals import Goals
 from goal import Goal
 from goal_tracker import GoalTracker

@@ -4,7 +4,8 @@ import datetime
 from lib.ebook import Ebook
 from lib.book import Book
 from lib.goal import Goal
-from lib.audiobook import AudiobookSeconds, Audiobook
+from lib.audiobook import Audiobook
+from audiobookseconds import AudiobookSeconds
 
 ERROR_MESSAGES = {
     "not_an_integer": "{0} is not a valid integer. Goal must be a number "

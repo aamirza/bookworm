@@ -2,7 +2,7 @@ import datetime
 from typing import Union
 
 from lib.book import Book
-from lib.audiobook import AudiobookSeconds
+from audiobookseconds import AudiobookSeconds
 from lib.goal import Goal
 from lib.ibook import iBook
 from format import Format
