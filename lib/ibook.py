@@ -1,3 +1,8 @@
+"""
+iBook is an abstract base class for classes such as Book (books with page
+numbers), Audiobook, and Ebook (book progressed measured in per cent complete).
+"""
+
 from __future__ import annotations
 from abc import ABC
 import datetime
@@ -14,6 +19,7 @@ class iBook(ABC):
                  start_date: datetime.datetime = datetime.datetime.today(),
                  id_num: int = 0
                  ) -> None:
+        # TODO: Turn into proper error
         assert total_pages >= pages_read, \
             "Total pages cannot be less than pages read."
 
@@ -22,7 +28,7 @@ class iBook(ABC):
         self._pages_read = pages_read
         self._total_pages = total_pages
         self.start_date = start_date
-        self.id = id_num
+        self.id = id_num  # For database purposes
 
     def __str__(self) -> str:
         return self.title
@@ -32,13 +38,18 @@ class iBook(ABC):
                f"{self.total_pages})"
 
     def __eq__(self, other):
+        """
+        For iBooks: if title and format are same, then book is same. '
+        For strings: If title is same, then book is same.
+        """
         if isinstance(other, iBook):
             return self.title == other.title and self.format == other.format
         else:
             return other == self.title
 
-    def __contains__(self, item):
-        return item in self.title
+    def __contains__(self, title):
+        """For getting the book in a list of books via the title."""
+        return title in self.title
 
     @property
     def percent_complete(self) -> float:
@@ -67,8 +78,8 @@ class iBook(ABC):
         return self._total_pages
 
     @total_pages.setter
-    def total_pages(self, value: int) -> None:
-        self._total_pages = value
+    def total_pages(self, pages: int) -> None:
+        self._total_pages = pages
 
     def complete(self) -> None:
         self.pages_read = self.total_pages
