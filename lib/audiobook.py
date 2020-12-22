@@ -1,3 +1,8 @@
+"""
+The Audiobook class is for representing books whose length is measured
+in seconds.
+"""
+
 import datetime
 from typing import Union, Optional
 
@@ -20,5 +25,6 @@ class Audiobook(iBook):
                          AudiobookSeconds(total_time), start_date, id_num)
 
     def __repr__(self):
+        """Overridden so that pages read is shown in HH:MM:SS format."""
         return f"{__class__.__name__}({self.title}, {self.pages_read}, " \
                f"{self.total_pages})"

@@ -9,7 +9,9 @@ Ebook: Books with length measured by percent complete.
 from __future__ import annotations
 from abc import ABC
 import datetime
+from typing import Union
 
+from audiobookseconds import AudiobookSeconds
 from format import Format
 
 
@@ -17,8 +19,8 @@ class iBook(ABC):
     def __init__(self,
                  book_format: Format,
                  title: str,
-                 pages_read: int = 0,
-                 total_pages: int = 0,
+                 pages_read: Union[int, AudiobookSeconds] = 0,
+                 total_pages: Union[int, AudiobookSeconds] = 0,
                  start_date: datetime.datetime = datetime.datetime.today(),
                  id_num: int = 0
                  ) -> None:
