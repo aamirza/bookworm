@@ -1,6 +1,9 @@
 """
-iBook is an abstract base class for classes such as Book (books with page
-numbers), Audiobook, and Ebook (book progressed measured in per cent complete).
+iBook is an abstract base class for classes such as Book, Audiobook, and Ebook.
+
+Book: Books with length measured by pages.
+Audiobook: Books with length measured by time (seconds)
+Ebook: Books with length measured by percent complete.
 """
 
 from __future__ import annotations
