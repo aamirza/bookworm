@@ -1,3 +1,7 @@
+"""The Ebook class is for representing books where progress is measured
+in per cent complete."""
+
+
 from __future__ import annotations
 import datetime
 from typing import Optional
