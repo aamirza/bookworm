@@ -1,3 +1,6 @@
+"""The Book class is for representing books whose length is measured in
+numbered pages."""
+
 import datetime
 from typing import Optional
 
