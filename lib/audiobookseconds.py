@@ -39,44 +39,37 @@ class AudiobookSeconds:
     def __truediv__(self, other):
         if type(other) == AudiobookSeconds:
             return self.seconds / other.seconds
-        else:
-            return self.seconds / other
+        return self.seconds / other
 
     def __mod__(self, other):
         if type(other) == AudiobookSeconds:
             return self.seconds % other.seconds
-        else:
-            return self.seconds % other
+        return self.seconds % other
 
     def __eq__(self, other):
         if type(other) == AudiobookSeconds:
             return self.seconds == other.seconds
-        else:
-            return self.seconds == other
+        return self.seconds == other
 
     def __gt__(self, other):
         if type(other) == AudiobookSeconds:
             return self.seconds > other.seconds
-        else:
-            return self.seconds > other
+        return self.seconds > other
 
     def __ge__(self, other):
         if type(other) == AudiobookSeconds:
             return self.seconds >= other.seconds
-        else:
-            return self.seconds >= other
+        return self.seconds >= other
 
     def __lt__(self, other):
         if type(other) == AudiobookSeconds:
             return self.seconds < other.seconds
-        else:
-            return self.seconds < other
+        return self.seconds < other
 
     def __le__(self, other):
         if type(other) == AudiobookSeconds:
             return self.seconds <= other.seconds
-        else:
-            return self.seconds <= other
+        return self.seconds <= other
 
     def __round__(self):
         return AudiobookSeconds(round(self.seconds))
@@ -104,7 +97,8 @@ class AudiobookSeconds:
         if cls.is_valid_time_format(time_string):
             time_units = [int(x) for x in time_string.split(":")]
             # if hours are missing, set hours to 0
-            if len(time_units) < 3: time_units.index(0, 0)
+            if len(time_units) < 3:
+                time_units.index(0, 0)
 
             hours, minutes, seconds = time_units[0], time_units[1], time_units[
                 2]
