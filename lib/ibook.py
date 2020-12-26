@@ -24,6 +24,14 @@ class iBook(ABC):
                  start_date: datetime.datetime = datetime.datetime.today(),
                  id_num: int = 0
                  ) -> None:
+        """
+        :param book_format: Format of either Book, Ebook or Audiobook
+        :param title: Title of the book
+        :param pages_read: How many pages of the book that have been read
+        :param total_pages:  How many pages the book has
+        :param start_date: When the book was started or created
+        :param id_num: #ID, used for database sorting. Defaults to 0 for none.
+        """
         # TODO: Turn into proper error
         assert total_pages >= pages_read, \
             "Total pages cannot be less than pages read."
@@ -33,7 +41,7 @@ class iBook(ABC):
         self._pages_read = pages_read
         self._total_pages = total_pages
         self.start_date = start_date
-        self.id = id_num  # For database purposes
+        self.id = id_num
 
     def __str__(self) -> str:
         return self.title
