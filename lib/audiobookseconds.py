@@ -95,13 +95,18 @@ class AudiobookSeconds:
     def convert_string_to_seconds(cls, time_string):
         """Convert time in format HH:MM:SS or MM:SS into integer seconds"""
         if cls.is_valid_time_format(time_string):
-            time_units = [int(x) for x in time_string.split(":")]
+            hours_index = 0
+            minutes_index = 1
+            seconds_index = 2
+            # Split H:M:S into list
+            time_units = [int(unit) for unit in time_string.split(":")]
             # if hours are missing, set hours to 0
             if len(time_units) < 3:
-                time_units.index(0, 0)
+                time_units.index(0, hours_index)
 
-            hours, minutes, seconds = time_units[0], time_units[1], time_units[
-                2]
+            hours = time_units[hours_index]
+            minutes = time_units[minutes_index]
+            seconds = time_units[seconds_index]
             return (hours * 3600) + (minutes * 60) + seconds
         else:
             raise TimeFormatError(
