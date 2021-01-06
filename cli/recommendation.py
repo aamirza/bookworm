@@ -6,7 +6,7 @@ from lib.shelf import Shelf
 EMPTY_LINE = ""
 
 
-def print_books():
+def print_books(next_day=False):
     goals_database = Goals()
     books_database = Books()
     tracker = GoalTracker(goals_database.get_current_goal(),
@@ -18,6 +18,7 @@ def print_books():
     print(EMPTY_LINE)
     print(opening_message)
     print(EMPTY_LINE)
-    for recommendation in tracker.minimum_page_recommendations():
+    for recommendation in tracker.minimum_page_recommendations(
+            force_next_day=next_day):
         print(recommendation)
     print(EMPTY_LINE)

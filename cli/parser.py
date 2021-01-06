@@ -14,7 +14,8 @@ COMMANDS = (
     'add_book', 'ab',
     'update_goal', 'ug',
     'update_book', 'ub', 'up',
-    'drop_book', 'db'
+    'drop_book', 'db',
+    'next_day', 'nd'
 )
 
 
@@ -26,6 +27,7 @@ def parse_command(args):
         # No arguments passed
         # By default, recommendations should be shown
         pass
+    # TODO: Add help for tomorrow's recommendations
     parser.add_argument("Command", choices=COMMANDS, type=str,
                         metavar="command", nargs=1, action='store',
                         help="Choose from one of the following: add_goal (ag),"
@@ -35,6 +37,7 @@ def parse_command(args):
 
 
 def main(args):
+    next_day_recommendations = False
     if len(args) > 1:
         try:
             command = parse_command([args[1]])
@@ -46,10 +49,12 @@ def main(args):
                 book_parser.update_book(args[2:])
             elif command in ('update_goal', 'ug'):
                 goal_parser.update_goal(args[2:])
+            elif command in ('next_day', 'nd'):
+                next_day_recommendations = True
         except argparse.ArgumentTypeError as err:
             print(f"Error: {err}")
             raise SystemExit
-    recommendation.print_books()
+    recommendation.print_books(next_day_recommendations)
 
 
 if __name__ == "__main__":

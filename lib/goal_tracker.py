@@ -78,7 +78,9 @@ class GoalTracker:
 
     def minimum_page_recommendations(self, *, force_next_day: bool = False):
         for index, book in enumerate(self.shelf):
-            recommendation = str(self.minimum_pages_needed(book))
+            recommendation = str(
+                self.minimum_pages_needed(book, force_next_day=force_next_day)
+            )
             pages_read = str(book.pages_read)
             if book.format == Format.EBOOK:
                 # Add a percentage sign if ebook
