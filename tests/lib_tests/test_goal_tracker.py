@@ -151,3 +151,16 @@ class TestGoalTracker(TestCase):
         self.tracker += Book("Next book unfinished", 237, 700)
         self.assertEqual(350, self.tracker.minimum_pages_needed(
             self.tracker.shelf.books[1], force_next_day=True))
+
+    @freeze_time("2020-01-05")
+    def test_minimumPages_needToReadJustUnderOneBook_returnsRecommendations(
+            self):
+        self.tracker.goal.num_books = 366
+        self.tracker.goal.start_date = "2020-01-01"
+        self.tracker.goal.end_date = "2021-01-01"
+        self.tracker += Book("An incomplete book", 99, 100)
+        self.tracker += Book("Another incomplete book", 10, 100)
+        self.tracker += Book("A complete book", 100, 100)
+        self.tracker += Book("A complete book 2", 100, 100)
+        self.assertEqual(100, self.tracker.minimum_pages_needed(
+            self.tracker.shelf.books[0]))

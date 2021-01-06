@@ -69,11 +69,15 @@ class GoalTracker:
         if num_books_to_read >= 1:
             minimum_pages_to_read = entire_book
         elif num_books_to_read < 1:
-            minimum_pages_to_read += book.total_pages * num_books_to_read
+            pages_to_read = book.total_pages * num_books_to_read
+            minimum_pages_to_read = book.pages_read + pages_to_read
+            if minimum_pages_to_read > entire_book:
+                minimum_pages_to_read = entire_book
 
         if book.format == Format.AUDIOBOOK:
-            minimum_pages_to_read = AudiobookSeconds(
-                int(minimum_pages_to_read))
+            minimum_pages_to_read = AudiobookSeconds(int(minimum_pages_to_read)
+                                                     )
+
         return round(minimum_pages_to_read)
 
     def minimum_page_recommendations(self, *, force_next_day: bool = False):
