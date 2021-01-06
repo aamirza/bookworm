@@ -37,7 +37,7 @@ class iBook(ABC):
         :param id_num: #ID, used for database sorting. Defaults to 0 for none.
         """
 
-        if total_pages >= pages_read:
+        if total_pages < pages_read:
             raise PagesReadError("Total pages cannot be less than pages read.")
 
         self.format = Format(book_format)
