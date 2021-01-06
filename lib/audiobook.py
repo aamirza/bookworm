@@ -25,6 +25,7 @@ class Audiobook(iBook):
                          AudiobookSeconds(total_time), start_date, id_num)
 
     def __repr__(self):
-        """Over super class so that pages read is shown in HH:MM:SS format."""
+        """Override super class so that pages read is shown in HH:MM:SS
+        format."""
         return f"{__class__.__name__}({self.title}, {self.pages_read}, " \
                f"{self.total_pages})"
