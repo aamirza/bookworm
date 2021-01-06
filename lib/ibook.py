@@ -15,6 +15,10 @@ from lib.audiobookseconds import AudiobookSeconds
 from lib.format import Format
 
 
+class PagesReadError(Exception):
+    pass
+
+
 class iBook(ABC):
     def __init__(self,
                  book_format: Format,
@@ -32,9 +36,9 @@ class iBook(ABC):
         :param start_date: When the book was started or created
         :param id_num: #ID, used for database sorting. Defaults to 0 for none.
         """
-        # TODO: Turn into proper error
-        assert total_pages >= pages_read, \
-            "Total pages cannot be less than pages read."
+
+        if total_pages >= pages_read:
+            raise PagesReadError("Total pages cannot be less than pages read.")
 
         self.format = Format(book_format)
         self.title = title
