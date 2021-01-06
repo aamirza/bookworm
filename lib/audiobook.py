@@ -6,9 +6,9 @@ in seconds.
 import datetime
 from typing import Union, Optional
 
-from audiobookseconds import AudiobookSeconds
+from lib.audiobookseconds import AudiobookSeconds
 from lib.ibook import iBook
-from format import Format
+from lib.format import Format
 
 
 class Audiobook(iBook):

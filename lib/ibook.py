@@ -11,8 +11,8 @@ from abc import ABC
 import datetime
 from typing import Union
 
-from audiobookseconds import AudiobookSeconds
-from format import Format
+from lib.audiobookseconds import AudiobookSeconds
+from lib.format import Format
 
 
 class iBook(ABC):

@@ -6,7 +6,7 @@ from typing import List, Union, Optional
 from database.db import db
 from database.goals import NoGoalCreatedError
 from lib.ibook import iBook
-from format import Format
+from lib.format import Format
 from lib.book import Book
 from lib.audiobook import Audiobook
 from lib.ebook import Ebook

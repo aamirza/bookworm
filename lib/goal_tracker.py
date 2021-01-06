@@ -2,10 +2,10 @@ import datetime
 from typing import Union
 
 from lib.book import Book
-from audiobookseconds import AudiobookSeconds
+from lib.audiobookseconds import AudiobookSeconds
 from lib.goal import Goal
 from lib.ibook import iBook
-from format import Format
+from lib.format import Format
 from lib.shelf import Shelf
 
 
