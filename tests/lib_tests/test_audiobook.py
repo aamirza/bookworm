@@ -1,7 +1,8 @@
 import unittest
 
+from lib.ibook import PagesReadError
 from audiobook import Audiobook
-from audiobookseconds import TimeFormatError
+from lib.audiobookseconds import TimeFormatError
 
 """
 Makes tests for:
@@ -33,7 +34,7 @@ class MyTestCase(unittest.TestCase):
             Audiobook("How to write time", "14:2:14", "19:22:14")
 
     def test_init_timeReadLongerThanLength_raisesAssertionError(self):
-        with self.assertRaisesRegex(AssertionError,
+        with self.assertRaisesRegex(PagesReadError,
                                     "Total pages cannot be less than pages "
                                     "read."):
             newAudiobook = Audiobook("Bending space and time",

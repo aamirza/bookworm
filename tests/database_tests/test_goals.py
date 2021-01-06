@@ -42,6 +42,7 @@ class GoalDatabaseTests(unittest.TestCase):
     def test_activeGoalExists_noActiveGoal_returnsFalse(self):
         self.assertFalse(self.goals.active_goal_exists())
 
+    @freeze_time("2020-07-31")
     def test_activeGoalExists_noActiveGoal_returnsTrue(self):
         self.add_two_goals_to_database()
         self.assertTrue(self.goals.active_goal_exists())
