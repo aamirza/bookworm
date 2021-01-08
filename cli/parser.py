@@ -32,7 +32,8 @@ def parse_command(args):
                         metavar="command", nargs=1, action='store',
                         help="Choose from one of the following: add_goal (ag),"
                              " add_book (ab), update_goal (ug), update_book "
-                             "(ub or up), or drop_book (db).")
+                             "(ub or up), or drop_book (db), or "
+                             "next_day (nd).")
     return parser.parse_args(args).Command[0]
 
 
