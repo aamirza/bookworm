@@ -23,7 +23,9 @@ class Goals(db):
             goal = Goal(*self.c.fetchone())
         except TypeError:
             if len(self.get_all_goals()) == 0:
-                raise NoGoalCreatedError("You have no goals initialized.")
+                # TODO: Make more user friendly.
+                raise NoGoalCreatedError("You have no goals initialized. "
+                                         "Add a goal with the command \"ag\"")
             else:
                 goal = None
         return goal
