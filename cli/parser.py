@@ -22,11 +22,7 @@ COMMANDS = (
 def parse_command(args):
     parser = argparse.ArgumentParser(prog=PROGRAM_NAME,
                                      description=PROGRAM_DESCRIPTION)
-    # If no goal is set, raise that error message
-    if len(args) == 0:
-        # No arguments passed
-        # By default, recommendations should be shown
-        pass
+
     # TODO: Add help for tomorrow's recommendations
     parser.add_argument("Command", choices=COMMANDS, type=str,
                         metavar="command", nargs=1, action='store',
