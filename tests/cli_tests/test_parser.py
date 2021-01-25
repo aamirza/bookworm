@@ -4,7 +4,12 @@ import unittest
 
 import book_parser
 import goal_parser
+import recommendation
+from book import Book
 from cli import parser
+from goal import Goal
+from goal_tracker import GoalTracker
+from shelf import Shelf
 
 SUCCESS_CODE = 0
 INVALID_INPUT_CODE = 2
@@ -47,6 +52,32 @@ class TestParser(unittest.TestCase):
         with self.assertRaises(SystemExit) as exit_obj:
             book_parser.add_book(args[2:])
         self.assertEqual(INVALID_INPUT_CODE, exit_obj.exception.code)
+
+    def test_booksCompleteMessage_oneBookComplete(self):
+        complete_book = Book("A complete book", 100, 100)
+        shelf = Shelf([complete_book])
+        goal = Goal("50", "2283-01-14", "2401-01-01")
+        tracker = GoalTracker(goal, shelf)
+        self.assertEqual("You have completed 1 book so far.",
+                         recommendation.num_of_books_complete_message(tracker))
+
+    def test_booksCompleteMessage_zeroBooksComplete(self):
+        shelf = Shelf()
+        goal = Goal("50", "2283-01-14", "2401-01-01")
+        tracker = GoalTracker(goal, shelf)
+        self.assertEqual("You have completed 0 books so far.",
+                         recommendation.num_of_books_complete_message(tracker))
+
+    def test_booksCompleteMessage_twoBooksComplete(self):
+        complete_book = Book("A complete book", 100, 100)
+        another_complete_book = Book("Another one", 100, 100)
+        shelf = Shelf()
+        goal = Goal("50", "2283-01-14", "2401-01-01")
+        tracker = GoalTracker(goal, shelf)
+        tracker.shelf.add_book(complete_book)
+        tracker.shelf.add_book(another_complete_book)
+        self.assertEqual("You have completed 2 books so far.",
+                         recommendation.num_of_books_complete_message(tracker))
 
 
 

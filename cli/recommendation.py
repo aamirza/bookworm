@@ -15,6 +15,15 @@ def goal_message(tracker: GoalTracker):
     return opening_message
 
 
+def num_of_books_complete_message(tracker):
+    """Return the number of books complete in a message string format."""
+    num_of_books_complete = tracker.shelf.num_complete_books
+    message = f"You have completed {num_of_books_complete} book"
+    message += "s" if num_of_books_complete != 1 else ""  # Add plural
+    message += " so far."
+    return message
+
+
 def print_books(next_day=False):
     goals_database = Goals()
     books_database = Books()
@@ -23,6 +32,8 @@ def print_books(next_day=False):
 
     print(EMPTY_LINE)
     print(goal_message(tracker))
+    print(EMPTY_LINE)
+    print(num_of_books_complete_message(tracker))
     print(EMPTY_LINE)
     for recommendation in tracker.minimum_page_recommendations(
             force_next_day=next_day):
