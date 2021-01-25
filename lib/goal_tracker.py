@@ -80,8 +80,11 @@ class GoalTracker:
 
         return round(minimum_pages_to_read)
 
-    def minimum_page_recommendations(self, *, force_next_day: bool = False):
+    def minimum_page_recommendations(self, *, force_next_day: bool = False,
+                                     show_completed_books=False):
         for index, book in enumerate(self.shelf):
+            if book.is_complete and not show_completed_books: continue
+
             recommendation = str(
                 self.minimum_pages_needed(book, force_next_day=force_next_day)
             )

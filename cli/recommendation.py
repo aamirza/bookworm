@@ -24,7 +24,7 @@ def num_of_books_complete_message(tracker):
     return message
 
 
-def print_books(next_day=False):
+def print_books(next_day=False, show_completed_books=False):
     goals_database = Goals()
     books_database = Books()
     tracker = GoalTracker(goals_database.get_current_goal(),
@@ -36,6 +36,7 @@ def print_books(next_day=False):
     print(num_of_books_complete_message(tracker))
     print(EMPTY_LINE)
     for recommendation in tracker.minimum_page_recommendations(
-            force_next_day=next_day):
+            force_next_day=next_day,
+            show_completed_books=show_completed_books):
         print(recommendation)
     print(EMPTY_LINE)
