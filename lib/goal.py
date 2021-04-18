@@ -112,4 +112,5 @@ class Goal:
         return self.ideal_books_per_day * self.days_since_start
 
     def message(self):
-        return f"Read {self.num_books} books by {str(self.end_date)}"
+        verbose_end_date = datetime.date.strftime(self.end_date, "%B %-d, %Y")  # In format "Month DD, YYYY"
+        return f"Read {self.num_books} books by {verbose_end_date}"

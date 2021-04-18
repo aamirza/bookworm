@@ -15,7 +15,8 @@ COMMANDS = (
     'update_goal', 'ug',
     'update_book', 'ub', 'up',
     'drop_book', 'db',
-    'next_day', 'nd'
+    'next_day', 'nd',
+    'all'
 )
 
 
@@ -29,12 +30,13 @@ def parse_command(args):
                         help="Choose from one of the following: add_goal (ag),"
                              " add_book (ab), update_goal (ug), update_book "
                              "(ub or up), or drop_book (db), or "
-                             "next_day (nd).")
+                             "next_day (nd), or 'all'.")
     return parser.parse_args(args).Command[0]
 
 
 def main(args):
     next_day_recommendations = False
+    show_all_books = False
     if len(args) > 1:
         try:
             command = parse_command([args[1]])
@@ -48,10 +50,12 @@ def main(args):
                 goal_parser.update_goal(args[2:])
             elif command in ('next_day', 'nd'):
                 next_day_recommendations = True
+            elif command in ('all',):
+                show_all_books = True
         except argparse.ArgumentTypeError as err:
             print(f"Error: {err}")
             raise SystemExit
-    recommendation.print_books(next_day_recommendations)
+    recommendation.print_books(next_day_recommendations, show_all_books)
 
 
 if __name__ == "__main__":

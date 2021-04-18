@@ -164,3 +164,16 @@ class TestGoalTracker(TestCase):
         self.tracker += Book("A complete book 2", 100, 100)
         self.assertEqual(100, self.tracker.minimum_pages_needed(
             self.tracker.shelf.books[0]))
+
+    def test_goal_message_returns_date_in_verbose_format(self):
+        year_from_now_date = datetime.datetime.strftime(self.tracker.goal.end_date, "%B %-d, %Y")
+        self.assertEqual(
+            self.tracker.goal.message(),
+            f"Read 50 books by {year_from_now_date}"
+        )
+
+    def test_goal_tracker_recommendation_use_the_word_page_when_giving_recommendations_for_physical_books(self):
+        book = Book("A book title", 0, 500)
+        self.tracker += book
+        recommendations = self.tracker.minimum_page_recommendations()
+        self.assertIn("page 0", next(recommendations))

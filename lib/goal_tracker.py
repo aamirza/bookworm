@@ -89,10 +89,15 @@ class GoalTracker:
                 self.minimum_pages_needed(book, force_next_day=force_next_day)
             )
             pages_read = str(book.pages_read)
+
             if book.format == Format.EBOOK:
                 # Add a percentage sign if ebook
                 recommendation += "%"
                 pages_read += "%"
+            elif book.format == Format.BOOK:
+                # Prepend "page " to page number
+                recommendation = "page " + recommendation
+                pages_read = "page " + pages_read
             yield f"{book.id}. {book.title} – You need to read from " \
                   f"{pages_read} to {recommendation} today."
 
