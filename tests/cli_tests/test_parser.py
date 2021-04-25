@@ -1,6 +1,7 @@
 import argparse
 import datetime
 import unittest
+from unittest import mock
 
 import book_parser
 import goal_parser
@@ -9,6 +10,7 @@ from book import Book
 from cli import parser
 from goal import Goal
 from goal_tracker import GoalTracker
+from database.goals import NoGoalCreatedError
 from shelf import Shelf
 
 SUCCESS_CODE = 0
@@ -79,16 +81,17 @@ class TestParser(unittest.TestCase):
         self.assertEqual("You have completed 2 books so far.",
                          recommendation.num_of_books_complete_message(tracker))
 
+    @mock.patch('parser.recommendation.print_books')
+    @mock.patch('parser.prompt.add_goal')
+    def test_no_goal_initialized_launches_prompt_to_add_goal(self, mock_prompt, mock_recommendation):
+        def raise_error(*args, **kwargs):
+            raise NoGoalCreatedError
 
+        mock_recommendation.side_effect = raise_error
 
-
-    # A test for when you have a goal in the database, but no books
-
-    # A test for when you have no goal in the database, but try to add a book
-
-    # A test for when you have a goal, add a book and it gives a recommendation
-
-    # A test for when you add two goals to the database
+        with self.assertRaises(NoGoalCreatedError):
+            parser.main(['python3'])
+        self.assertTrue(mock_prompt.called)
 
 
 if __name__ == '__main__':

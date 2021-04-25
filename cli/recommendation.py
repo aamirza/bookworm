@@ -11,7 +11,7 @@ def goal_message(tracker: GoalTracker):
     read Y books by YYYY-MM-DD'"""
     opening_message = tracker.days_ahead_message()  # "You are 5 days ahead"
     opening_message += " on your goal to "
-    opening_message += tracker.goal.message().lower()  # "read 5 books by 2021"
+    opening_message += "r" + tracker.goal.message()[1:]  # "read 5 books by 2021" # Bootleg attempt to lowercase R.
     return opening_message
 
 

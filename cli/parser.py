@@ -1,9 +1,11 @@
 import argparse
 import sys
 
+from cli import prompt
 from cli import recommendation
 from cli import book_parser
 from cli import goal_parser
+from database.goals import NoGoalCreatedError
 
 PROGRAM_NAME = "Bookworm"
 PROGRAM_DESCRIPTION = "Have a book reading goal and keep track of your " \
@@ -55,7 +57,15 @@ def main(args):
         except argparse.ArgumentTypeError as err:
             print(f"Error: {err}")
             raise SystemExit
-    recommendation.print_books(next_day_recommendations, show_all_books)
+
+    try:
+        recommendation.print_books(next_day_recommendations, show_all_books)
+    except NoGoalCreatedError:
+        try:
+            prompt.add_goal()
+            recommendation.print_books()
+        except argparse.ArgumentTypeError:
+            raise SystemExit
 
 
 if __name__ == "__main__":

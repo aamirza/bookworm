@@ -26,8 +26,8 @@ def add_goal(args):
     add_goal_to_database(goal)
 
 
-def add_goal_to_database(goal):
-    db = goals_db.Goals()
+def add_goal_to_database(goal, db_name=""):
+    db = goals_db.Goals(db_name=db_name)
     if not db.active_goal_exists():
         db.add_goal(goal)
     else:
