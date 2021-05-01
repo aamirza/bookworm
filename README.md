@@ -61,7 +61,7 @@ How many books would you like to read? >>> 30
 By when do you want to achieve this goal? [YYYY-MM-DD] >>> 2022-01-01
 ```
 
-If you already have a goal set, this command will give you recommendations to help you stay on track.
+If you already have a goal set, the ```bookworm``` command will give you recommendations to help you stay on track.
 
 # Guide
 
@@ -211,7 +211,7 @@ of arguments can be viewed with ```bookworm [command] -h```
 
 * ```next_day``` - get recommendations so that you are one day closer to completing your goal if you follow through.
 * ```nd``` - shorthand for next_day.
-* ```all``` - show recommendations as well as books you have already completed (hidden by default).
+* ```all``` - show list of recommendations as well as list of books you have already completed (hidden by default).
 
 # Licence
 
