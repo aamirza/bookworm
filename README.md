@@ -165,6 +165,35 @@ You have completed 10 books so far.
 In this case, following through on the above "next day" recommendations will drop the days behind counter from -40 to
 -39.
 
+## Commands
+
+The following is a full list of commands and their options. This list can be accessed with ```bookworm -h``` and a list
+of arguments can be viewed with ```bookworm [command] -h```
+
+### Goal commands
+
+* ```add_goal``` - add a new book reading goal (you may only have one at a time).
+* ```ag``` - shorthand for add_goal
+* ```update_goal``` - make changes to the goal in progress (book goal, target date).
+* ``` ug``` - shorthand for update_goal.
+
+### Book commands
+
+* ```add_book``` - add a book to your self.
+* ```ab``` - shorthand for add_book.
+* ```update_book``` - update the properties of a book on your shelf.
+* ```up``` - shorthand for update_book.
+* ``` ub``` - shorthand for update_book.
+* ```drop_book``` - drop or delete a book from the shelf. (unimplemented)
+* ```db``` - shorthand for drop_book
+* ```dp``` - shorthand for drop_book
+
+### Recommendation commands
+
+* ```next_day``` - get recommendations so that you are one day closer to completing your goal if you follow through.
+* ```nd``` - shorthand for next_day.
+* ```all``` - show recommendations as well as books you have already completed (hidden by default).
+
 ## Licence
 
 Check LICENCE file.
