@@ -11,7 +11,10 @@ def main():
     # Run build
     os.system('/usr/local/bin/python3 -m build')
     # Use Twine to upload
-    os.system('/usr/local/bin/python3 /usr/local/bin/twine upload --repository testpypi dist/*')
+    if os.environ.get('TEST', '') == 'n':
+        os.system('/usr/local/bin/python3 /usr/local/bin/twine upload dist/*')
+    else:
+        os.system('/usr/local/bin/python3 /usr/local/bin/twine upload --repository testpypi dist/*')
 
 
 if __name__ == "__main__":
