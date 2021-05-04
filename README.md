@@ -215,4 +215,4 @@ of arguments can be viewed with ```bookworm [command] -h```
 
 # Licence
 
-Check LICENCE file.
+The source code for this app is licensed under the MIT licence, which you can find in the LICENCE file.
