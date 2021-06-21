@@ -1,7 +1,7 @@
 from unittest import TestCase
 
-from book import Book
-from audiobook import Audiobook
+from lib.book import Book
+from lib.audiobook import Audiobook
 
 """
 Naming convention: test_functionName_input/TestState_expectedResult

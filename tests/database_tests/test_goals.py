@@ -30,8 +30,8 @@ class GoalDatabaseTests(unittest.TestCase):
                          self.goals.get_current_goal())
 
     def test_noGoals_raisesError(self):
-        with self.assertRaisesRegexp(database.goals.NoGoalCreatedError,
-                                     "You have no goals"):
+        with self.assertRaisesRegex(database.goals.NoGoalCreatedError,
+                                    "You have no goals"):
             self.goals.get_current_goal()
 
     def test_inactivateAllGoals(self):

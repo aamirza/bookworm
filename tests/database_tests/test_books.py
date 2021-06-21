@@ -1,16 +1,12 @@
 import datetime
 
-from freezegun import freeze_time
 import unittest
 
-from audiobook import Audiobook
-from audiobookseconds import AudiobookSeconds
-from database.goals import Goals
-from goal import Goal
-from goal_tracker import GoalTracker
-from book import Book
+from lib.audiobook import Audiobook
+from lib.audiobookseconds import AudiobookSeconds
+from lib.book import Book
 from database.books import Books, BookNotFoundError
-from ebook import Ebook
+from lib.ebook import Ebook
 
 """
 Test naming convention:

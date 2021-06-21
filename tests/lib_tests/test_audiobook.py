@@ -1,7 +1,7 @@
 import unittest
 
 from lib.ibook import PagesReadError
-from audiobook import Audiobook
+from lib.audiobook import Audiobook
 from lib.audiobookseconds import TimeFormatError
 
 """

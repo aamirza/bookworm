@@ -1,8 +1,8 @@
 import unittest
 
-from audiobook import Audiobook
-from book import Book
-from shelf import Shelf
+from lib.audiobook import Audiobook
+from lib.book import Book
+from lib.shelf import Shelf
 
 
 class ShelfTests(unittest.TestCase):

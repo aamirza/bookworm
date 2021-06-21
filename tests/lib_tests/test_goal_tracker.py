@@ -2,10 +2,10 @@ from freezegun import freeze_time
 import datetime
 from unittest import TestCase, mock
 
-import goal_tracker
-from goal import Goal
-from lib import book, audiobook
-from book import Book
+from lib import goal_tracker
+from lib.goal import Goal
+from lib import audiobook
+from lib.book import Book
 from lib.shelf import Shelf
 
 """

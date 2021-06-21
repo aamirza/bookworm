@@ -3,10 +3,9 @@ import datetime
 import os
 import unittest
 from unittest.mock import patch
-from io import StringIO
 
-import prompt
-import validate
+from cli import prompt
+from cli import validate
 from cli.validate import get_future_date
 from database import goals
 from lib.goal import Goal
@@ -14,7 +13,7 @@ from lib.goal import Goal
 
 @patch('builtins.input')
 class TestPrompt(unittest.TestCase):
-    @patch('prompt.validate.goal_number')
+    @patch('cli.prompt.validate.goal_number')
     def test_invalid_goal_input_gets_validated(self, mock_validate_goal, mock_input):
         invalid_input = "-2"
         mock_input.return_value = invalid_input
@@ -36,10 +35,10 @@ class TestPrompt(unittest.TestCase):
             prompt.add_goal()
         mock_validate_date.assert_called_once_with(invalid_input)
 
-    @patch('prompt.validate.goal')
-    @patch('prompt.get_goal')
-    @patch('prompt.get_goal_end_date')
-    @patch('prompt.add_goal_to_database')
+    @patch('cli.prompt.validate.goal')
+    @patch('cli.prompt.get_goal')
+    @patch('cli.prompt.get_goal_end_date')
+    @patch('cli.prompt.add_goal_to_database')
     def test_valid_goal_adds_to_database(
             self, mock_add_goal_to_db, mock_get_date, mock_get_goal, mock_validate_goal, mock_input
     ):

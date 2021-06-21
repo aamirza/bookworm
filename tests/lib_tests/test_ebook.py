@@ -1,6 +1,6 @@
 import unittest
 
-from ebook import Ebook, InvalidPercentageError
+from lib.ebook import Ebook, InvalidPercentageError
 
 """
 Naming convention: test_functionName_input/TestState_expectedResult

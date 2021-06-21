@@ -3,18 +3,19 @@ import datetime
 import unittest
 from unittest import mock
 
-import book_parser
-import goal_parser
-import recommendation
-from book import Book
+from cli import book_parser
+from cli import goal_parser
+from cli import recommendation
+from lib.book import Book
 from cli import parser
-from goal import Goal
-from goal_tracker import GoalTracker
+from lib.goal import Goal
+from lib.goal_tracker import GoalTracker
 from database.goals import NoGoalCreatedError
-from shelf import Shelf
+from lib.shelf import Shelf
 
 SUCCESS_CODE = 0
 INVALID_INPUT_CODE = 2
+
 
 class TestParser(unittest.TestCase):
 
@@ -81,8 +82,8 @@ class TestParser(unittest.TestCase):
         self.assertEqual("You have completed 2 books so far.",
                          recommendation.num_of_books_complete_message(tracker))
 
-    @mock.patch('parser.recommendation.print_books')
-    @mock.patch('parser.prompt.add_goal')
+    @mock.patch('cli.parser.recommendation.print_books')
+    @mock.patch('cli.parser.prompt.add_goal')
     def test_no_goal_initialized_launches_prompt_to_add_goal(self, mock_prompt, mock_recommendation):
         def raise_error(*args, **kwargs):
             raise NoGoalCreatedError
