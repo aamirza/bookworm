@@ -1,3 +1,5 @@
+# TODO: Write comments
+
 """
 This is for the walkthrough prompt of adding a goal.
 """

@@ -1,10 +1,22 @@
+"""
+Child of parser.py
+
+This is the command line arguments for adding, updating, deleting books, and other things to do with books.
+"""
 import argparse
 
 from database.books import Books as Books_db
 from cli import validate
+from lib.ibook import iBook
 
 
 def add_book(args):
+    """
+    Parser for adding a book.
+
+    :param args: The command-line args passed from Parser.
+    :return: None, adds book to database.
+    """
     parser = argparse.ArgumentParser("Bookworm add book")
     parser.add_argument("-f", "-format", default="book", dest="format",
                         type=validate.book_format,
@@ -25,12 +37,14 @@ def add_book(args):
     add_book_to_database(book)
 
 
-def add_book_to_database(book):
+def add_book_to_database(book: iBook):
     db = Books_db()
     db.add_book(book)
+    # TODO: Put this in the database package
 
 
 def update_book(args):
+    """Parser for updating a book"""
     parser = argparse.ArgumentParser("Bookworm update book")
     parser.add_argument("id", default=0, type=int,
                         help="The ID of the book you're tryng to update. The"
@@ -48,3 +62,4 @@ def update_book(args):
                                       selected_book.total_pages,
                                       selected_book.format)
         books_db.update_pages_read(selected_book, book_args.pages_read)
+    # TODO: Refactor updating book into its own function and put it in database package

@@ -1,3 +1,5 @@
+# TODO: Write comments
+
 from database.books import Books
 from database.goals import Goals
 from lib.goal_tracker import GoalTracker

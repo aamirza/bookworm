@@ -1,3 +1,5 @@
+# TODO: Write comments
+
 import argparse
 import datetime
 

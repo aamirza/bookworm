@@ -1,3 +1,11 @@
+"""
+Child of parser.py
+
+This is the command line arguments for adding, updating goals, and other things to do with goals.
+"""
+
+# TODO: Write comments
+
 import argparse
 import datetime
 
@@ -6,6 +14,7 @@ from cli import validate
 
 
 def add_goal(args):
+    """Parser for adding goals"""
     today = datetime.datetime.today().date()
     year_from_now = datetime.datetime(today.year + 1, today.month,
                                       today.day).date()
@@ -27,6 +36,7 @@ def add_goal(args):
 
 
 def add_goal_to_database(goal, db_name=""):
+    # TODO: Move to database package
     db = goals_db.Goals(db_name=db_name)
     if not db.active_goal_exists():
         db.add_goal(goal)
@@ -36,6 +46,7 @@ def add_goal_to_database(goal, db_name=""):
 
 
 def update_goal(args):
+    """Parser for updating goals"""
     db = goals_db.Goals()
     active_goal = db.get_current_goal()
 
