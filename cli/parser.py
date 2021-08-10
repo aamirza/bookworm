@@ -1,4 +1,4 @@
-# TODO: Write comments
+"""Functions for the command-line argument parser, and heart of the program."""
 
 import argparse
 import sys

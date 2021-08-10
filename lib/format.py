@@ -1,3 +1,5 @@
+"""Enum class for book formats (books, ebooks, audiobooks, etc.)"""
+
 from enum import Enum
 
 

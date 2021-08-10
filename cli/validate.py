@@ -1,4 +1,6 @@
-# TODO: Write comments
+"""
+This the validating layer for cleaning user input.
+"""
 
 import argparse
 import datetime

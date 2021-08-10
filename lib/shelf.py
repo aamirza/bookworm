@@ -1,4 +1,5 @@
-"""Shelf class, to be used with the BOOKS table in the database"""
+"""Shelf class, to be used with the BOOKS table in the database. It is a container for the books the user has read or
+is reading."""
 import collections
 from typing import List
 

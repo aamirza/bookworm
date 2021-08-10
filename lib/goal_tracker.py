@@ -1,3 +1,5 @@
+"""The GoalTracker class links a user's goal to their book reading progress."""
+
 import datetime
 from typing import Union
 

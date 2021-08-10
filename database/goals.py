@@ -1,3 +1,7 @@
+"""
+Class interface for the goals table of the database. Stores and updates the user's active goal and its properties.
+"""
+
 from database.db import db
 from lib.goal import Goal
 

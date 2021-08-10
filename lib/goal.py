@@ -1,3 +1,5 @@
+"""Goal is a class representing the user's book reading goal"""
+
 import datetime
 import time
 

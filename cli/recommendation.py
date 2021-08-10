@@ -1,4 +1,6 @@
-# TODO: Write comments
+"""
+These are the functions for printing the reading recommendations onto the terminal.
+"""
 
 from database.books import Books
 from database.goals import Goals

@@ -1,3 +1,7 @@
+"""
+Class interface for the books table of the database. Keeps track of the user's book reading progress.
+"""
+
 import datetime
 from typing import List, Union, Optional
 

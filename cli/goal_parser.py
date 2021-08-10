@@ -36,6 +36,7 @@ def add_goal(args):
 
 
 def add_goal_to_database(goal, db_name=""):
+    """Add goal to database."""
     # TODO: Move to database package
     db = goals_db.Goals(db_name=db_name)
     if not db.active_goal_exists():

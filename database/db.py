@@ -1,3 +1,7 @@
+"""
+Base class for interacting with the database.
+"""
+
 import datetime
 import os
 import sqlite3
