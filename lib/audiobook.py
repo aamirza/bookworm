@@ -12,6 +12,7 @@ from lib.format import Format
 
 
 class Audiobook(iBook):
+    """Represents books whose length is measured in seconds."""
     def __init__(self,
                  title: str,
                  time_listened: Union[int, str],

@@ -12,6 +12,7 @@ class TimeFormatError(Exception):
 
 
 class AudiobookSeconds:
+    """A class that makes it easy to represent time in HH:MM:SS and to do mathematical calculations with it."""
     def __init__(self, time):
         if type(time) == int:
             self.seconds = time

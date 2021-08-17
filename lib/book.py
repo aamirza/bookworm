@@ -9,6 +9,7 @@ from lib.format import Format
 
 
 class Book(iBook):
+    """Represents books with a paper page count"""
     def __init__(self,
                  title: str,
                  pages_read: int,

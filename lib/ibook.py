@@ -20,6 +20,7 @@ class PagesReadError(Exception):
 
 
 class iBook(ABC):
+    """Abstract base class for different format of books."""
     def __init__(self,
                  book_format: Format,
                  title: str,

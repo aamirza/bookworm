@@ -12,6 +12,7 @@ SHELF_DB_PATH = os.path.join(DB_ROOT_DIR, 'shelf.db')
 
 
 class db:
+    """Base class for the database interface."""
     def __init__(self, db_name=SHELF_DB_PATH):
         self.conn: sqlite3.Connection = sqlite3.connect(db_name)
         self.c: sqlite3.Cursor = self.conn.cursor()

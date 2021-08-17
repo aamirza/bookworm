@@ -7,8 +7,8 @@ from lib.ibook import iBook
 
 
 class Shelf(collections.abc.Sequence):
+    """Class for holding data be used with the BOOKS table in the database"""
     def __init__(self, books=None):
-        """Shelf class, to be used with the BOOKS table in the database"""
         if books:
             self.books = books
         else:

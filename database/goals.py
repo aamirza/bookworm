@@ -7,10 +7,12 @@ from lib.goal import Goal
 
 
 class NoGoalCreatedError(Exception):
+    """Error is raised when there is no goal in the database."""
     pass
 
 
 class Goals(db):
+    """Interface for interacting with the goals table of the database."""
     def __init__(self, db_name=""):
         if db_name:
             super().__init__(db_name)

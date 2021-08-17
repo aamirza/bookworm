@@ -4,11 +4,13 @@ import datetime
 import time
 
 
-class InternalError(Exception):
+class DatetimeConversionError(Exception):
+    """Raised when there is an error assigning a date to the Goal."""
     pass
 
 
 class Goal:
+    """Represents the user's book reading goal and various calculations related to it."""
     def __init__(self, num_books, start_date, end_date):
         self._num_books = num_books
         self._start_date = self._convert_to_date(start_date)
@@ -41,7 +43,7 @@ class Goal:
         elif isinstance(value, int):
             date = datetime.datetime.fromtimestamp(value).date()
         else:
-            raise InternalError("Couldn't convert date.")
+            raise DatetimeConversionError("Couldn't convert date.")
         return date
 
     ### GETTERS AND SETTERS ###

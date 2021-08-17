@@ -11,10 +11,12 @@ from lib.format import Format
 
 
 class InvalidPercentageError(Exception):
+    """Raised if number outside 0 to 100 is encountered."""
     pass
 
 
 class Ebook(iBook):
+    """Represents (usually electronic) books whose completion is measured out of 100 per cent."""
     Percent: int
 
     def __init__(self,

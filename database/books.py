@@ -15,10 +15,12 @@ from lib.ebook import Ebook
 
 
 class BookNotFoundError(Exception):
+    """Error is raised when a book title or ID is not found in the database."""
     pass
 
 
 class Books(db):
+    """Interface for interacting with the Books table in the database."""
     def __init__(self, db_name="") -> None:
         if db_name:
             super().__init__(db_name)
