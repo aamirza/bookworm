@@ -25,6 +25,7 @@ COMMANDS = (
 
 
 def parse_command(args):
+    """Return the user's main command (add book, update book, add goal etc.)"""
     parser = argparse.ArgumentParser(prog=PROGRAM_NAME,
                                      description=PROGRAM_DESCRIPTION)
 
@@ -39,8 +40,11 @@ def parse_command(args):
 
 
 def main(args):
+    # whether to show recommendations to advance to next day (e.g. from 10 days behind to 9 days behind), or to catch up
+    # to the goal (e.g. from 10 days behind to 0 days behind)
     next_day_recommendations = False
-    show_all_books = False
+    show_completed_books = False
+    # Get user command and execute it
     if len(args) > 1:
         try:
             command = parse_command([args[1]])
@@ -55,13 +59,14 @@ def main(args):
             elif command in ('next_day', 'nd'):
                 next_day_recommendations = True
             elif command in ('all',):
-                show_all_books = True
+                show_completed_books = True
         except argparse.ArgumentTypeError as err:
             print(f"Error: {err}")
             raise SystemExit
 
     try:
-        recommendation.print_books(next_day_recommendations, show_all_books)
+        # Show book reading recommendations
+        recommendation.print_books(next_day_recommendations, show_completed_books)
     except NoGoalCreatedError:
         try:
             prompt.add_goal()

@@ -23,10 +23,14 @@ class AudiobookSeconds:
                 "Audiobook length format should be in H:M:S or M:S")
 
     def __str__(self):
+        """Represent the time in HH:MM:SS"""
         return self.covert_seconds_to_string(self.seconds)
 
     def __int__(self):
+        """The integer form is represented in the number of seconds (to aid in calculations)"""
         return self.seconds
+
+    """All the following methods make it easier to perform mathematical calculations."""
 
     def __add__(self, value):
         return self.seconds + value
@@ -115,6 +119,7 @@ class AudiobookSeconds:
 
     @classmethod
     def covert_seconds_to_string(cls, seconds):
+        """Convert integer seconds to HH:MM:SS format."""
         hours = int(seconds / 3600)
         minutes = int((seconds / 60) % 60)
         seconds = seconds % 60

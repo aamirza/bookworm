@@ -49,6 +49,7 @@ class iBook(ABC):
         self.id = id_num
 
     def __str__(self) -> str:
+        """Return the title as the book's string representation."""
         return self.title
 
     def __repr__(self) -> str:
@@ -100,4 +101,5 @@ class iBook(ABC):
         self._total_pages = pages
 
     def complete(self) -> None:
+        """Mark book as complete."""
         self.pages_read = self.total_pages

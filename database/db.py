@@ -20,6 +20,7 @@ class db:
             self.create_tables()
 
     def __del__(self):
+        """For when closing the database connection."""
         self.c.close()
         self.conn.commit()
         self.conn.close()
@@ -91,6 +92,7 @@ class db:
         return time.mktime(date.timetuple())
 
     def active_goal_exists(self):
+        """Check if there is an active goal (there can only be one)."""
         self.c.execute("""
         SELECT *
         FROM goals
@@ -99,6 +101,7 @@ class db:
         return len(self.c.fetchall()) == 1
 
     def get_all_tables(self) -> list:
+        """Get the name of all the tables in the database."""
         tables = self.c.execute(
             "SELECT name FROM sqlite_master WHERE type='table';")
         return [table[0] for table in tables]

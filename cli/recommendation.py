@@ -29,6 +29,7 @@ def num_of_books_complete_message(tracker):
 
 
 def print_books(next_day=False, show_completed_books=False):
+    """Output the user's book reading recommendations"""
     goals_database = Goals()
     books_database = Books()
     tracker = GoalTracker(goals_database.get_current_goal(),

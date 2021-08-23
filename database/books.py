@@ -35,6 +35,7 @@ class Books(db):
                           start_date: Optional[
                               Union[datetime.datetime, int]] = None,
                           id_num: Optional[int] = 0):
+        """Return an appropriate iBook subclass by passing in its parameters"""
         book_format = Format(format)
         if book_format == Format.BOOK:
             return Book(title, pages_read, total_pages, start_date,
@@ -46,6 +47,8 @@ class Books(db):
                              id_num=id_num)
 
     def _extract_title(self, book: Union[str, iBook]):
+        """Interpret whether the input is a string (and thus the title), or a book object (and so the title must be
+        retrieved)."""
         return book if isinstance(book, str) else book.title
 
     def _add_book(self, title: str, total_pages: int, format: int, ) -> None:
@@ -57,6 +60,7 @@ class Books(db):
             """, (title, int(total_pages), format))
 
     def _add_goal_book(self, title, pages_read, start_date):
+        """Add a book to the database that will be associated with a goal"""
         with self.conn:
             self.c.execute("""
             INSERT INTO goalbooks (goal_id, book_id, pages_read, start_date)
@@ -66,6 +70,7 @@ class Books(db):
             """, (title, int(pages_read), start_date))
 
     def add_book(self, book: iBook) -> None:
+        """Add a book to the database."""
         assert isinstance(book, iBook), "The book you pass into add_book() " \
                                         "should be of type iBook."
         if self.active_goal_exists():
@@ -76,7 +81,7 @@ class Books(db):
                                      " a book to the database.")
 
     def get_book(self, book: Union[iBook, str]) -> iBook:
-        """Get a book from the database"""
+        """Get a book from the database using the title or a book object."""
         assert isinstance(book, str) or isinstance(book, iBook), \
             "get_book() accepts only either a string or an iBook type object" \
             " as an argument."
@@ -93,6 +98,7 @@ class Books(db):
         return None if book is None else self._book_constructor(*book)
 
     def get_book_by_id(self, id):
+        """Get a book from the database using the ID."""
         self.c.execute("""
         SELECT b.format_id, b.title, gb.pages_read, b.total_pages, 
         gb.start_date, b.id
@@ -118,6 +124,7 @@ class Books(db):
         return books
 
     def update_pages_read(self, book: Union[iBook, str], pages_read):
+        """Update the pages read of a book on the database."""
         if not self.has_book(book):
             raise BookNotFoundError('The book you are trying to update ' \
                                     'was not found in the database.')
@@ -167,9 +174,11 @@ class Books(db):
             return self.get_book(book)
 
     def has_book(self, book: Union[iBook, str]) -> bool:
+        """Check if a book exists in the database"""
         return self.get_book(book) is not None
 
     def remove_book(self, book: Union[str, iBook]) -> None:
+        """Remove a book from the database"""
         assert isinstance(book, iBook) or isinstance(book, str), \
             "Book must either be a str (title) or type iBook"
         if not self.has_book(book):

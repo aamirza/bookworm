@@ -41,7 +41,9 @@ ACCEPTABLE_FORMATS = [
     "ebook", "eb"
 ]
 
+
 def ArgTypeError(message, *args):
+    """General error message when invalid arguments are passed as command-line arguments"""
     return argparse.ArgumentTypeError(ERROR_MESSAGES[message].format(*args))
 
 
@@ -56,6 +58,7 @@ Validation for goals
 """
 
 def goal_number(goal_num):
+    """Validate the number of books the user wants to read."""
     try:
         goal_num = int(goal_num)
     except ValueError:
@@ -66,6 +69,7 @@ def goal_number(goal_num):
 
 
 def get_date(date, in_the_future=False):
+    """Validate dates."""
     try:
         valid_date = datetime.datetime.strptime(date, '%Y-%m-%d').date()
     except ValueError:
@@ -79,10 +83,12 @@ def get_date(date, in_the_future=False):
 
 
 def get_future_date(date):
+    """Validate if a date is in the future."""
     return get_date(date, in_the_future=True)
 
 
 def goal(goal_num, start_date, end_date):
+    """Validate if proper parameters have been passed in to make a Goal object."""
     if start_date >= end_date:
         raise ArgTypeError("start_date_after_end_date", start_date, end_date)
     return Goal(num_books=goal_num, start_date=start_date, end_date=end_date)
@@ -94,6 +100,7 @@ Validation for books
 
 
 def book_format(format):
+    """Validate the book format (book, ebook, audiobook etc.)"""
     if format not in ACCEPTABLE_FORMATS:
         raise ArgTypeError("invalid_book_format", format)
     short_forms = {
@@ -107,6 +114,7 @@ def book_format(format):
 
 
 def book_pages(pages):
+    """Validate that the book pages are in the right format."""
     if AudiobookSeconds.is_valid_time_format(pages):
         pages = AudiobookSeconds(pages)
     try:
@@ -117,6 +125,7 @@ def book_pages(pages):
 
 
 def book(title, pages_read, total_pages=100, book_format="book"):
+    """Validate that valid parameters are being passed into the creation of a Book object"""
     if total_pages < pages_read:
         raise ArgTypeError("pages_read_more_than_total_pages")
     elif pages_read < 0 or total_pages < 0:

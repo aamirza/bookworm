@@ -27,11 +27,13 @@ class Goal:
         return False
 
     def _start_date_before_end_date(self):
+        """Ensure that the goal start date is not after the goal end date."""
         if self.start_date >= self.end_date:
             raise ValueError("Start date needs to be before end date")
 
     @staticmethod
     def _convert_to_date(value) -> datetime.date:
+        """Convert myriad date and time formate to a Date object."""
         assert type(value) in (str, datetime.date, datetime.datetime, int), \
             "Date must be a datetime, date or string object."
         if isinstance(value, str):
@@ -101,20 +103,25 @@ class Goal:
 
     @property
     def total_duration(self) -> int:
+        """How long the goal is in terms of days"""
         return (self.end_date - self.start_date).days
 
     @property
     def ideal_books_per_day(self) -> float:
+        """The ideal pace to be working on the goal, in number of books per day."""
         return self.num_books / self.total_duration
 
     @property
     def days_since_start(self) -> int:
+        """How many days it has been since the goal was started."""
         return (datetime.datetime.today().date() - self.start_date).days
 
     @property
     def min_ideal_books_complete(self):
+        """Ideally, how many books you should have completed, if you went at the ideal pace."""
         return self.ideal_books_per_day * self.days_since_start
 
     def message(self):
+        """Your goal stated in a message i.e. 'Read 50 books by January 1, 2021."""
         verbose_end_date = datetime.date.strftime(self.end_date, "%B %-d, %Y")  # In format "Month DD, YYYY"
         return f"Read {self.num_books} books by {verbose_end_date}"

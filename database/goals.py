@@ -20,6 +20,7 @@ class Goals(db):
             super().__init__()
 
     def get_current_goal(self) -> Goal:
+        """Get the current active goal (there can only be one)."""
         self.c.execute("""
         SELECT book_goal, start_date, end_date
         FROM goals
@@ -37,6 +38,7 @@ class Goals(db):
         return goal
 
     def get_all_goals(self):
+        """Get all goals including ones that are complete/deactivated."""
         self.c.execute("""
         SELECT book_goal, start_date, end_date
         FROM goals
@@ -45,6 +47,7 @@ class Goals(db):
         return goals
 
     def add_goal(self, goal: Goal):
+        """Add a new goal to the database."""
         assert type(goal) is Goal, "goal must be of type Goal"
         self.inactivate_all_goals()
         self.c.execute("""
@@ -56,6 +59,7 @@ class Goals(db):
         ))
 
     def update_active_goal_num_books(self, num_books):
+        """Update the active goal by updating the number of books the user aims to read."""
         self.c.execute("""
         UPDATE GOALS 
         SET book_goal = ?
@@ -63,6 +67,7 @@ class Goals(db):
         """, (num_books,))
 
     def update_active_goal_end_date(self, end_date):
+        """Update the active goal by updating its end/target date."""
         self.c.execute("""
         UPDATE GOALS
         SET end_date = ?
@@ -70,6 +75,7 @@ class Goals(db):
         """, (self._date_to_unix_timestamp(end_date),))
 
     def inactivate_all_goals(self):
+        """Render all goals inactive."""
         self.c.execute("""
         UPDATE GOALS
         SET active = 0
